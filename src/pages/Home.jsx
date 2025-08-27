@@ -1,28 +1,45 @@
 import MovieCard from "../components/MovieCard";
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getPopularMovies, searchMovies } from "../services/api"
+import "../css/Home.css"
 
 function Home() {
-    const [searchQuery, setSearchQuesry] = useState("");
-    const movies = [
-        { id: 1, title: "ST's movie", release_data: 2020 },
-        { id: 2, title: "Cutie's movie", release_data: 2021 },
-        { id: 3, title: "Pookie's movie", release_data: 2022 },
-    ];
+    const [searchQuery, setSearchQuery] = useState("");
+    const [movies, setMovies] = useState([])
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const loadPopularMovies = async () => {
+            try{
+                const popularMovies = await getPopularMovies()
+                setMovies(popularMovies)
+            }
+            catch(err){
+                console.log(err)
+                setError("Failed to load movies")
+            }
+            finally {
+                setLoading(false)
+            }
+        }
+        loadPopularMovies()
+    }, [])
 
     const handleSearch = (e) => {
         e.preventDefault()
         alert(searchQuery)
         setSearchQuesry("")
-     };
+    };
     return (
         <div className="home">
             <form onSubmit={handleSearch} className="search-form">
                 <input type="text" placeholder="Search for movies" className="search-input" value={searchQuery}
-                    onChange={(e) => setSearchQuesry(e.target.value)} />
+                    onChange={(e) => setSearchQuery(e.target.value)} />
                 <button type="submit" className="search-btn">Search</button>
             </form>
             <div className="movies-grid">
-                {movies.map((movie) => movie.title.toLowerCase().startsWith(searchQuery) && (
+                {movies.map((movie) => (
                     <MovieCard movie={movie} key={movie.id} />
                 ))}
             </div>
