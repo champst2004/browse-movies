@@ -1,4 +1,4 @@
-# 🎬 [Browse Movies](https://champst2004.github.io/browse-movies/)
+# 🎬 Browse Movies
 
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
@@ -78,4 +78,4 @@ src/
 ---
 
 ## 📜 License
-MIT © [champst2004](https://github.com/champst2004/browse-movies?tab=MIT-1-ov-file#)
+MIT © [champst2004](https://github.com/champst2004/browse-movies/blob/master/LICENSE)
