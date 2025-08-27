@@ -11,8 +11,8 @@ function App() {
       <NavBar> </NavBar>
       <main className="main-content">
         <Routes>
-          <Route path="/browse-movies" element={<Home />} />
-          <Route path="/browse-movies/favorites" element={<Favorites />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </main>
     </MovieProvider>
