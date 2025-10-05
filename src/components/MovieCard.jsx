@@ -14,6 +14,11 @@ function MovieCard({ movie, onClick }) {
     });
     
     const [selectedLabel, setSelectedLabel] = useState(movieLabels[movie.id] || "");
+
+    // Keep selectedLabel in sync with movieLabels[movie.id]
+    React.useEffect(() => {
+        setSelectedLabel(movieLabels[movie.id] || "");
+    }, [movieLabels, movie.id]);
     // Handle the tag change
     const handleLabelChange = (movieId, label) => {
         const updatedLabels = { ...movieLabels, [movieId]: label };
