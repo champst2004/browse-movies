@@ -30,5 +30,6 @@ export async function discoverMoviesByGenre(genreId, page = 1) {
     `${BASE_URL}/discover/movie?api_key=${API_KEY}&with_genres=${genreId}&page=${page}&language=en-US`
   );
   if (!res.ok) throw new Error("Failed to fetch movies");
-  return res.json();
+  const data = await res.json();
+  return data.results;
 }
