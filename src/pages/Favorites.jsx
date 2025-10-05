@@ -8,6 +8,17 @@ function Favorites() {
     const { favorites } = useMovieContext();
     const [selectedMovieId, setSelectedMovieId] = useState(null);
 
+    const [movieTags, setMovieTags] = useState(() => {
+        const savedTags = localStorage.getItem("movieTags");
+        return savedTags ? JSON.parse(savedTags) : {};
+    });
+
+    const handleTagChange = (movieId, newTag) => {
+        const updatedTags = { ...movieTags, [movieId]: newTag };
+        setMovieTags(updatedTags);
+        localStorage.setItem("movieTags", JSON.stringify(updatedTags)); // Save updated tags to localStorage
+    };
+
     const handleMovieClick = (movieId) => {
         setSelectedMovieId(movieId);
     };
@@ -16,6 +27,22 @@ function Favorites() {
         setSelectedMovieId(null);
     };
 
+    const renderTagInput = (movieId) => {
+        const currentTag = movieTags[movieId] || "";
+        return (
+            <div className="tag-input-container">
+                <input
+                    type="text"
+                    value={currentTag}
+                    placeholder="Add a tag..."
+                    onChange={(e) => handleTagChange(movieId, e.target.value)}
+                    className="tag-input"
+                />
+                {currentTag && <span className="movie-tag">{currentTag}</span>}
+            </div>
+        );
+    };
+    
     if (favorites && favorites.length > 0) {
         return (
             <div className="favs">
