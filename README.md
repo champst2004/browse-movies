@@ -3,6 +3,8 @@
 [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=FFD62E)](https://vitejs.dev/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](./LICENSE)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)
+[![Hacktoberfest](https://img.shields.io/badge/Hacktoberfest-2025-orange.svg?style=for-the-badge)](https://hacktoberfest.com/)
 
 A fast, modern **React + Vite** web app scaffold for exploring and browsing movies.  
 Designed for rapid iteration with HMR, ESLint integration, and a clean component-first structure.  
@@ -74,6 +76,14 @@ src/
 - 🔄 Pagination / Infinite scroll  
 - ⭐ Favorites & Watchlist  
 - 🎥 Trailers and Cast pages  
+
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!  
+Feel free to check the [issues page](https://github.com/champst2004/browse-movies/issues).  
+Please read our [contributing guide](./CONTRIBUTING.md) and [code of conduct](./CODE_OF_CONDUCT.md) before submitting a pull request.
 
 ---
 
