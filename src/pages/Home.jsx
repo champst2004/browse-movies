@@ -121,42 +121,51 @@ function Home() {
             </form>
 
             <div className="filters-container">
-                <select 
-                    className="filter-select"
-                    value={filters.genre}
-                    onChange={(e) => handleFilterChange("genre", e.target.value)}
-                >
-                    <option value="">All Genres</option>
-                    {genres.map((genre) => (
-                        <option key={genre.id} value={genre.id}>
-                            {genre.name}
-                        </option>
-                    ))}
-                </select>
+                <div className="filter-group">
+                    <label className="filter-label">Genre</label>
+                    <select 
+                        className="filter-select"
+                        value={filters.genre}
+                        onChange={(e) => handleFilterChange("genre", e.target.value)}
+                    >
+                        <option value="">All Genres</option>
+                        {genres.map((genre) => (
+                            <option key={genre.id} value={genre.id}>
+                                {genre.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-                <select 
-                    className="filter-select"
-                    value={filters.year}
-                    onChange={(e) => handleFilterChange("year", e.target.value)}
-                >
-                    <option value="">All Years</option>
-                    {years.map((year) => (
-                        <option key={year} value={year}>
-                            {year}
-                        </option>
-                    ))}
-                </select>
+                <div className="filter-group">
+                    <label className="filter-label">Year</label>
+                    <select 
+                        className="filter-select"
+                        value={filters.year}
+                        onChange={(e) => handleFilterChange("year", e.target.value)}
+                    >
+                        <option value="">All Years</option>
+                        {years.map((year) => (
+                            <option key={year} value={year}>
+                                {year}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-                <select 
-                    className="filter-select"
-                    value={filters.rating}
-                    onChange={(e) => handleFilterChange("rating", e.target.value)}
-                >
-                    <option value="">All Ratings</option>
-                    <option value="7">7+ ⭐</option>
-                    <option value="8">8+ ⭐</option>
-                    <option value="9">9+ ⭐</option>
-                </select>
+                <div className="filter-group">
+                    <label className="filter-label">Rating</label>
+                    <select 
+                        className="filter-select"
+                        value={filters.rating}
+                        onChange={(e) => handleFilterChange("rating", e.target.value)}
+                    >
+                        <option value="">All Ratings</option>
+                        <option value="7">7+ ⭐</option>
+                        <option value="8">8+ ⭐</option>
+                        <option value="9">9+ ⭐</option>
+                    </select>
+                </div>
             </div>
 
             {error && <div className="error-msg">{error}</div>}
