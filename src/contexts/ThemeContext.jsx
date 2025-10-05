@@ -15,7 +15,7 @@ export const ThemeProvider = ({ children }) => {
         return "dark";
       }
     } catch (e) {
-      // ignore
+      // localStorage access may fail in private browsing mode or due to browser restrictions
     }
     return "light";
   };
