@@ -7,6 +7,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
 .movie-card:hover {
@@ -101,7 +102,7 @@
   font-size: 0.9rem;
 }
 
-.user-rating {
+.movie-rating {
   color: #ffd700;
   font-size: 0.9rem;
   margin-top: auto;
