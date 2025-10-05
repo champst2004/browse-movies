@@ -25,7 +25,10 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     try {
       localStorage.setItem("theme", theme);
-    } catch (e) {}
+    } catch (e) {
+      // localStorage may not be available in some environments (e.g., SSR, private mode)
+      // Silently ignore errors as theme persistence is non-critical
+    }
     // attach data-theme attribute to html element for css selectors
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
