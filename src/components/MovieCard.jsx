@@ -1,5 +1,5 @@
 import "../css/MovieCard.css"
-import React, { useState } from "react";
+import { useState } from "react";
 import { useMovieContext } from "../contexts/MovieContext";
 
 function MovieCard({ movie, onClick }) {
