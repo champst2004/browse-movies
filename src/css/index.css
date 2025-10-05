@@ -82,3 +82,84 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* ===== Theme variables and overrides (append only) ===== */
+
+/* default variables (light fallback) */
+:root {
+  --bg: #ffffff;
+  --text: #213547;
+  --muted: #6b7280;
+  --card-bg: #f9f9f9;
+  --accent: #646cff;
+  --nav-bg: #ffffff;
+  --nav-text: #213547;
+  --btn-bg: #f3f4f6;
+  --link: #646cff;
+  --link-hover: #535bf2;
+  --shadow: 0 2px 4px rgba(0,0,0,0.06);
+  --transition-fast: 150ms ease;
+}
+
+/* dark theme variables */
+[data-theme="dark"] {
+  --bg: #121216;
+  --text: #e6eef8;
+  --muted: #9aa7b8;
+  --card-bg: #0d1116;
+  --accent: #60a5fa;
+  --nav-bg: #000000;
+  --nav-text: #e6eef8;
+  --btn-bg: #1a1a1a;
+  --link: #8aa7ff;
+  --link-hover: #9bb8ff;
+  --shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+
+/* ensure the html element has the attribute when ThemeContext sets it */
+html[data-theme] { transition: background-color var(--transition-fast), color var(--transition-fast); }
+
+/* Override global colors (these appear after existing rules so they take precedence) */
+:root, html, body, #root {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+/* Links & anchors */
+a {
+  color: var(--link);
+}
+a:hover {
+  color: var(--link-hover);
+}
+
+/* Global buttons override */
+button {
+  background-color: var(--btn-bg);
+  color: var(--text);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+/* Provide a variable-driven shadow for elements that used to rely on a hard-coded shadow */
+.navbar {
+  box-shadow: var(--shadow);
+  background-color: var(--nav-bg); /* will override previous hard-coded navbar background */
+  color: var(--nav-text);
+}
+
+/* Movie card / common card background override (if you have a .movie-card) */
+.movie-card {
+  background: var(--card-bg);
+  color: var(--text);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+/* small utility for muted text */
+.muted {
+  color: var(--muted);
+}
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+}

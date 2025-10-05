@@ -45,3 +45,30 @@
     padding: 0.5rem;
   }
 }
+
+/* ===== Theme toggle button (append only) ===== */
+
+.theme-toggle-btn {
+  border: 1px solid transparent;
+  background: var(--btn-bg);
+  color: var(--nav-text);
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.theme-toggle-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(100,108,255,0.12);
+}
+
+/* keep mobile spacing consistent */
+@media (max-width: 768px) {
+  .theme-toggle-btn { padding: 0.3rem; font-size: 0.95rem; }
+}
