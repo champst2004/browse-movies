@@ -56,3 +56,37 @@
   width: 100%;
   box-sizing: border-box;
 }
+
+/* Movie tag input field */
+.tag-input input {
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-width: 150px;
+    font-size: 14px;
+}
+
+.movie-card-with-tag {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Display tag under the movie title */
+.movie-card-tag {
+    margin-top: 5px;
+    font-size: 14px;
+    color: #fff;
+    background-color: #007bff;
+    padding: 3px 8px;
+    border-radius: 3px;
+    text-align: center;
+}
+
+/* To center the input for mobile */
+.movie-card-with-tag {
+    margin-bottom: 20px;
+}

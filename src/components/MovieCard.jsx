@@ -1,10 +1,26 @@
 import "../css/MovieCard.css"
+import React, { useState } from "react";
 import { useMovieContext } from "../contexts/MovieContext";
 
 function MovieCard({ movie, onClick }) {
     const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
     const favorite = isFavorite(movie.id);
     const releaseYear = movie.release_date?.split("-")[0] || "N/A";
+
+      // Load tags from localStorage
+     const [movieLabels, setMovieLabels] = useState(() => {
+        const savedLabels = localStorage.getItem("movieLabels");
+        return savedLabels ? JSON.parse(savedLabels) : {};
+    });
+    
+    const [selectedLabel, setSelectedLabel] = useState(movieLabels[movie.id] || "");
+    // Handle the tag change
+    const handleLabelChange = (movieId, label) => {
+        const updatedLabels = { ...movieLabels, [movieId]: label };
+        setMovieLabels(updatedLabels);
+        localStorage.setItem("movieLabels", JSON.stringify(updatedLabels)); // Save to localStorage
+        setSelectedLabel(label);
+    };
 
     function onFavoriteClick(e) {
         e.stopPropagation();
@@ -37,6 +53,22 @@ function MovieCard({ movie, onClick }) {
                 <p>{releaseYear}</p>
                 <div className="movie-rating">⭐ {movie.vote_average?.toFixed(1)}/10</div>
             </div>
+             <div className="movie-label">
+                    <label htmlFor={`label-dropdown-${movie.id}`}>Label: </label>
+                    <select
+    id={`label-dropdown-${movie.id}`}
+    value={selectedLabel}
+    onChange={(e) => handleLabelChange(movie.id, e.target.value)}
+    onClick={(e) => e.stopPropagation()}   // ⬅ prevent modal from opening
+    className="label-dropdown"
+>
+    <option value="">Select Label</option>
+    <option value="watched">Watched</option>
+    <option value="watch-later">Watch Later</option>
+    <option value="must-watch">Must Watch</option>
+    <option value="dont-watch">Don't Watch</option>
+</select>
+                </div>
         </div>
     );
 }
