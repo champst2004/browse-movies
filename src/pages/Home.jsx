@@ -48,7 +48,21 @@ function Home() {
     const handleSearch = async (e) => {
         e.preventDefault();
 
-        if (!searchQuery.trim()) return;
+         if (!searchQuery.trim()) {
+        try {
+            setLoading(true);
+            const popularMovies = await getPopularMovies();
+            setMovies(popularMovies);
+            setError(null);
+            setFilters({ genre: "", year: "", rating: "" });
+        } catch (err) {
+            console.log(err);
+            setError("Failed to load movies");
+        } finally {
+            setLoading(false);
+        }
+        return;
+    }
         if (loading) return;
 
         setLoading(true);
