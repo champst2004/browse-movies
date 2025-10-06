@@ -15,8 +15,8 @@ function Footer() {
         <div className="footer-section">
           <h4>Links</h4>
           <ul>
-            <li><a href="#">Contact Us</a></li>
-            <li><a href="#">About Us</a></li>
+            <li><a href="mailto:championst2004@gmail.com">Contact Us</a></li>
+            <li><a href="https://cst4.tech">About Us</a></li>
           </ul>
         </div>
         <div className="footer-section">
