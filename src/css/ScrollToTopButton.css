@@ -1,0 +1,21 @@
+.scroll-to-top {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background-color: #484b4e;
+  color: rgb(247, 241, 241);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  font-size: 24px;
+  z-index: 1000;
+}
+
+.scroll-to-top.show {
+  opacity: 0.5;
+  pointer-events: auto;
+}

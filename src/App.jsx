@@ -6,6 +6,7 @@ import { MovieProvider } from "./contexts/MovieContext";
 import NavBar from "./components/NavBar";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Footer from "./components/Footer";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         </Routes>
       </main>
       <Footer /> 
+      <ScrollToTopButton />
     </MovieProvider>
     </ThemeProvider>
   );
