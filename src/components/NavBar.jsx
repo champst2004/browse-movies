@@ -3,10 +3,13 @@ import "../css/NavBar.css"
 import { useThemeContext } from "../contexts/ThemeContext";
 
 function NavBar(){
-     const { theme, toggleTheme } = useThemeContext();
+     const { theme, toggleTheme, isDark } = useThemeContext();
     return <nav className="navbar">
         <div className="navbar-brand">
-            <Link to="/">Movie App</Link>
+            <Link to="/" className="brand-link">
+                <img src="/movie_logo.jpg" alt="Movie App logo" className="brand-logo" />
+                <span className="brand-text">Movie App</span>
+            </Link>
         </div>
         <div className="navbar-links">
             <Link to="/" className="nav-link">Home</Link>
@@ -16,11 +19,13 @@ function NavBar(){
         <button
           className="theme-toggle-btn"
           onClick={toggleTheme}
-          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-          title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          aria-pressed={isDark}
+          aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
+          title={`Switch to ${isDark ? "light" : "dark"} mode`}
         >
-          {/* simple icon: sun / moon */}
-          {theme === "dark" ? "🌞" : "🌙"}
+          <span className={`icon ${isDark ? "icon-sun" : "icon-moon"}`} aria-hidden="true">
+            {isDark ? "🌞" : "🌙"}
+          </span>
         </button>
       
     </nav>
