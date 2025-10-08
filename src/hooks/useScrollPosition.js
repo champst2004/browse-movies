@@ -5,11 +5,7 @@ const useScrollPosition = (scrollThreshold = 10) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > scrollThreshold) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > scrollThreshold);
     };
 
     window.addEventListener('scroll', handleScroll);
