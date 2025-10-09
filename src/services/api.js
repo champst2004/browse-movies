@@ -103,7 +103,10 @@ export const discoverMovies = async (filters = {}) => {
       await mockDelay();
       let results = [...mockData.results];
       if (filters.genre) {
-        // In mock mode we do not have genres per movie; leave as is
+        // Genre filtering is not supported in mock mode because mockData.results does not include genre information per movie.
+        // As a result, movies will not be filtered by genre when using mock data.
+        // To support genre filtering in mock mode, consider extending mockData.results to include a genres field for each movie,
+        // and update this filter accordingly.
       }
       if (filters.year) {
         results = results.filter((m) => (m.release_date || '').startsWith(String(filters.year)));
