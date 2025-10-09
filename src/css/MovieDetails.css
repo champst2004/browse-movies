@@ -34,7 +34,7 @@
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  font-size: large;
+  font-size: larger;
   cursor: pointer;
   z-index: 10;
   display: flex;
