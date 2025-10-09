@@ -1,0 +1,54 @@
+{
+  "results": [
+    {
+      "id": 1,
+      "title": "Bahubali: The Beginning",
+      "poster_path": "https://image.tmdb.org/t/p/w500/5Iw7zQTHVRBOYpA0V6z0yypOPZH.jpg",
+      "release_date": "2015-07-10",
+      "vote_average": 8.0,
+      "genre_ids": [28, 12]
+    },
+    {
+      "id": 2,
+      "title": "Bahubali 2: The Conclusion",
+      "poster_path": "https://image.tmdb.org/t/p/w500/9BAjt8n5r8D93LrJ2h1l8Wz2ody.jpg",
+      "release_date": "2017-04-28",
+      "vote_average": 8.2,
+      "genre_ids": [28, 12]
+    },
+    {
+      "id": 3,
+      "title": "RRR",
+      "poster_path": "https://image.tmdb.org/t/p/w500/wE0I6efAW4cDDmZQWtwZMOW44EJ.jpg",
+      "release_date": "2022-03-24",
+      "vote_average": 7.9,
+      "genre_ids": [28, 12]
+    },
+    { "id": 4, "title": "Inception", "poster_path": "https://image.tmdb.org/t/p/w500/qmDpIHrmpJINaRKAfWQfftjCdyi.jpg", "release_date": "2010-07-16", "vote_average": 8.8, "genre_ids": [28, 878, 12] },
+    { "id": 5, "title": "Interstellar", "poster_path": "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg", "release_date": "2014-11-07", "vote_average": 8.6, "genre_ids": [12, 18, 878] },
+    { "id": 6, "title": "The Dark Knight", "poster_path": "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg", "release_date": "2008-07-18", "vote_average": 9.0, "genre_ids": [28, 80, 18] },
+    { "id": 7, "title": "Avatar", "poster_path": "https://image.tmdb.org/t/p/w500/jRXYjXNq0Cs2TcJjLkki24MLp7u.jpg", "release_date": "2009-12-18", "vote_average": 7.8, "genre_ids": [12, 14, 878] },
+    { "id": 8, "title": "Titanic", "poster_path": "https://image.tmdb.org/t/p/w500/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg", "release_date": "1997-12-19", "vote_average": 7.9, "genre_ids": [18, 10749] },
+    { "id": 9, "title": "The Matrix", "poster_path": "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg", "release_date": "1999-03-31", "vote_average": 8.7, "genre_ids": [28, 878] },
+    { "id": 10, "title": "The Godfather", "poster_path": "https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg", "release_date": "1972-03-24", "vote_average": 9.2, "genre_ids": [18, 80] },
+    { "id": 11, "title": "Pulp Fiction", "poster_path": "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg", "release_date": "1994-10-14", "vote_average": 8.9, "genre_ids": [53, 80] },
+    { "id": 12, "title": "Fight Club", "poster_path": "https://image.tmdb.org/t/p/w500/a26cQPRhJPX6GbWfQbvZdrrp9j9.jpg", "release_date": "1999-10-15", "vote_average": 8.8, "genre_ids": [18] },
+    { "id": 13, "title": "The Shawshank Redemption", "poster_path": "https://image.tmdb.org/t/p/w500/q6y0Go1tsGEsmtFryDOJo3dEmqu.jpg", "release_date": "1994-09-23", "vote_average": 9.3, "genre_ids": [18, 80] },
+    { "id": 14, "title": "The Avengers", "poster_path": "https://image.tmdb.org/t/p/w500/RYMX2wcKCBAr24UyPD7xwmjaTn.jpg", "release_date": "2012-05-04", "vote_average": 8.0, "genre_ids": [28, 12, 878] },
+    { "id": 15, "title": "Joker", "poster_path": "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg", "release_date": "2019-10-04", "vote_average": 8.4, "genre_ids": [80, 18, 53] },
+    { "id": 16, "title": "Parasite", "poster_path": "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg", "release_date": "2019-05-30", "vote_average": 8.6, "genre_ids": [35, 18, 53] },
+    { "id": 17, "title": "Dune", "poster_path": "https://image.tmdb.org/t/p/w500/d5NXSklXo0qyIYkgV94XAgMIckC.jpg", "release_date": "2021-10-22", "vote_average": 8.0, "genre_ids": [12, 878] },
+    { "id": 18, "title": "Spider-Man: No Way Home", "poster_path": "https://image.tmdb.org/t/p/w500/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg", "release_date": "2021-12-17", "vote_average": 8.3, "genre_ids": [28, 12, 878] },
+    { "id": 19, "title": "Oppenheimer", "poster_path": "https://image.tmdb.org/t/p/w500/8GxF0FfQ0P0O2vR6bnfmn4kG2Ww.jpg", "release_date": "2023-07-21", "vote_average": 8.6, "genre_ids": [18, 36] },
+    { "id": 20, "title": "Barbie", "poster_path": "https://image.tmdb.org/t/p/w500/iuFNMS8U5cb6xfzi51Dbkovj7vM.jpg", "release_date": "2023-07-21", "vote_average": 7.1, "genre_ids": [35, 12] },
+    { "id": 21, "title": "Guardians of the Galaxy", "poster_path": "https://image.tmdb.org/t/p/w500/r7vmZjiyZw9rpJMQJdXpjgiCOk9.jpg", "release_date": "2014-08-01", "vote_average": 8.0, "genre_ids": [28, 12, 878] },
+    { "id": 22, "title": "Deadpool", "poster_path": "https://image.tmdb.org/t/p/w500/inVq3FRqcYIRl2la8iZikYYxFNR.jpg", "release_date": "2016-02-12", "vote_average": 8.0, "genre_ids": [28, 35, 12] },
+    { "id": 23, "title": "John Wick", "poster_path": "https://image.tmdb.org/t/p/w500/fZPSd91yGE9fCcCe6OoQr6E3Bev.jpg", "release_date": "2014-10-24", "vote_average": 7.4, "genre_ids": [28, 53] }
+  ],
+  "genres": [
+    { "id": 28, "name": "Action" },
+    { "id": 12, "name": "Adventure" },
+    { "id": 878, "name": "Science Fiction" }
+  ]
+}
+

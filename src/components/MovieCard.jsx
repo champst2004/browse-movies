@@ -31,12 +31,29 @@ function MovieCard({ movie, onClick }) {
         if (onClick) onClick(movie.id);
     }
 
+    const posterUrl = movie.poster_path
+        ? (movie.poster_path.startsWith("http://") || movie.poster_path.startsWith("https://")
+            ? movie.poster_path
+            : (movie.poster_path.startsWith("/")
+                ? movie.poster_path
+                : `https://image.tmdb.org/t/p/w500${movie.poster_path}`))
+        : "/st.jpg";
+
+    function handleImgError(e) {
+        // Stop showing st.jpg; hide broken image by removing src
+        e.currentTarget.removeAttribute("src");
+        e.currentTarget.alt = `${movie.title} poster unavailable`;
+        e.currentTarget.style.background = "#222";
+    }
+
     return (
         <div className="movie-card" onClick={handleCardClick}>
             <div className="movie-poster">
                 <img
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    src={posterUrl}
                     alt={movie.title}
+                    loading="lazy"
+                    onError={handleImgError}
                 />
                 <div className="movie-overlay">
                     <button
