@@ -41,7 +41,7 @@ function Home() {
         setLoading(true);
         const { results, totalPages: apiTotalPages } = await getPopularMovies(page);
         setMovies((prev) => (page === 1 ? results : [...prev, ...results]));
-        setTotalPages(apiTotalPages ?? null);
+        setTotalPages(apiTotalPages);
         setError(null);
       } catch (err) {
         console.log(err);
