@@ -202,7 +202,7 @@ function Home() {
         {/* Load More button appears only when browsing popular movies without active search/filters */}
         {(!searchQuery && !filters.genre && !filters.year && !filters.rating) && movies.length > 0 && (
           <div className="load-more-container">
-            {(totalPages == null || page < totalPages) ? (
+            {(totalPages === null || totalPages === undefined || page < totalPages) ? (
               <button
                 className="load-more-btn"
                 disabled={loading}
