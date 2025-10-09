@@ -2,20 +2,19 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 import mockData from "./mockData.json";
 
-export const getPopularMovies = async (page = 1) => {
+const withFallback = async (primaryFn, fallbackFn) => {
   try {
-    const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}&page=${page}`);
-    if (!response.ok) throw new Error('Failed to fetch popular movies');
-    const data = await response.json();
-    return {
-      results: data.results,
-      totalPages: data.total_pages,
-    };
+    if (!API_KEY) {
+      throw new Error("API key is not configured.");
+    }
+    return await primaryFn();
   } catch (error) {
-    console.error("Falling back to mock due to error:", error);
+    console.error("API call failed, falling back to mock data:", error);
     return fallbackFn();
   }
 };
+
+const mockDelay = (ms = 500) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const getPopularMovies = async (page = 1) => {
   return withFallback(
@@ -23,11 +22,17 @@ export const getPopularMovies = async (page = 1) => {
       const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}&page=${page}`);
       if (!response.ok) throw new Error('Failed to fetch popular movies');
       const data = await response.json();
-      return data.results;
+      return {
+        results: data.results,
+        totalPages: data.total_pages,
+      };
     },
     async () => {
       await mockDelay();
-      return mockData.results;
+      return {
+        results: mockData.results,
+        totalPages: mockData.total_pages,
+      };
     }
   );
 };
