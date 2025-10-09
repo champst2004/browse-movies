@@ -76,11 +76,15 @@ function Home() {
             const more = await Promise.all([getPopularMovies(2), getPopularMovies(3)]);
             const combined = (results || []).concat(...more);
             const q = searchQuery.toLowerCase();
-            const seen = new Set(combined.map((m) => (m.title || '').toLowerCase()));
-            results = [...combined].filter((m) => (m.title || '').toLowerCase().includes(q));
-            // dedupe after merge
-            results = [...new Map(results.map((m) => [ (m.title || m.id), m ])).values()];
-          } catch {}
+            const seen = new Set();
+            results = [];
+            for (const m of combined) {
+              const title = (m.title || '').toLowerCase();
+              if (title.includes(q) && !seen.has(title)) {
+                seen.add(title);
+                results.push(m);
+              }
+            }
         }
         // Last-resort built-in hints for common queries in mock mode
         if (!results || results.length === 0) {
