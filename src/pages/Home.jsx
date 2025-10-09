@@ -3,7 +3,7 @@ import MovieDetails from "../components/MovieDetails";
 import { useState, useEffect, useRef } from "react";
 import { getPopularMovies, searchMovies, getGenres, discoverMovies } from "../services/api";
 import "../css/Home.css";
-import useIntersectionObserver from "../hooks/useIntersectionObserver";
+// Removed IntersectionObserver-based infinite scroll
 
 function Home() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,16 +18,8 @@ function Home() {
     rating: ""
   });
   const [page, setPage] = useState(1);
-
-  const [targetRef, isIntersecting] = useIntersectionObserver({ threshold: 1 });
-  const fetchGuard = useRef(false)
-
-  useEffect(() => {
-    if (isIntersecting && !loading) {
-      setPage((prevPage) => prevPage + 1);
-      fetchGuard.current = false;
-    }
-  }, [isIntersecting]);
+  const [totalPages, setTotalPages] = useState(null);
+  const fetchGuard = useRef(false);
 
   useEffect(() => {
     const loadGenres = async () => {
@@ -46,8 +38,10 @@ function Home() {
       try {
         if (fetchGuard.current) return;
         fetchGuard.current = true;
-        const popularMovies = await getPopularMovies(page);
-        setMovies((prev) => [...prev, ...popularMovies]);
+        setLoading(true);
+        const { results, totalPages: apiTotalPages } = await getPopularMovies(page);
+        setMovies((prev) => (page === 1 ? results : [...prev, ...results]));
+        setTotalPages(apiTotalPages ?? null);
         setError(null);
       } catch (err) {
         console.log(err);
@@ -69,6 +63,8 @@ function Home() {
     try {
       const searchResults = await searchMovies(searchQuery);
       setMovies(searchResults);
+      setPage(1);
+      setTotalPages(1);
       setError(null);
       setFilters({ genre: "", year: "", rating: "" });
     } catch (err) {
@@ -86,8 +82,10 @@ function Home() {
     if (!value && !newFilters.genre && !newFilters.year && !newFilters.rating) {
       try {
         setLoading(true);
-        const popularMovies = await getPopularMovies();
-        setMovies(popularMovies);
+        const { results, totalPages: apiTotalPages } = await getPopularMovies(1);
+        setMovies(results);
+        setPage(1);
+        setTotalPages(apiTotalPages ?? null);
         setError(null);
       } catch (err) {
         setError("Failed to load movies");
@@ -101,6 +99,8 @@ function Home() {
       setLoading(true);
       const filteredMovies = await discoverMovies(newFilters);
       setMovies(filteredMovies);
+      setPage(1);
+      setTotalPages(1);
       setError(null);
       setSearchQuery("");
     } catch (err) {
@@ -184,10 +184,10 @@ function Home() {
 
       {error && <div className="error-msg">{error}</div>}
 
-      {loading ? (
-        <div className="loading">Loading...</div>
-      ) : (
-        <>
+      <>
+        {loading && movies.length === 0 ? (
+          <div className="loading">Loading...</div>
+        ) : (
           <div className="movies-grid">
             {movies.map((movie) => (
               <MovieCard
@@ -197,9 +197,28 @@ function Home() {
               />
             ))}
           </div>
-          <div className="loading" ref={targetRef}>Loading...</div>
-        </>
-      )}
+        )}
+
+        {/* Load More button appears only when browsing popular movies without active search/filters */}
+        {(!searchQuery && !filters.genre && !filters.year && !filters.rating) && movies.length > 0 && (
+          <div className="load-more-container">
+            {(totalPages == null || page < totalPages) ? (
+              <button
+                className="load-more-btn"
+                disabled={loading}
+                onClick={() => {
+                  if (!loading) {
+                    fetchGuard.current = false;
+                    setPage((p) => p + 1);
+                  }
+                }}
+              >
+                {loading ? "Loading..." : "Load More"}
+              </button>
+            ) : null}
+          </div>
+        )}
+      </>
 
       {selectedMovieId && (
         <MovieDetails
