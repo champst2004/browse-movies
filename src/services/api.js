@@ -2,14 +2,15 @@ const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = "https://api.themoviedb.org/3";
 import mockData from "./mockData.json";
 
-const isMockMode = !API_KEY;
-
-const mockDelay = (ms = 200) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const withFallback = async (requestFn, fallbackFn) => {
-  if (isMockMode) return fallbackFn();
+export const getPopularMovies = async (page = 1) => {
   try {
-    return await requestFn();
+    const response = await fetch(`${BASE_URL}/movie/popular?api_key=${API_KEY}&page=${page}`);
+    if (!response.ok) throw new Error('Failed to fetch popular movies');
+    const data = await response.json();
+    return {
+      results: data.results,
+      totalPages: data.total_pages,
+    };
   } catch (error) {
     console.error("Falling back to mock due to error:", error);
     return fallbackFn();
