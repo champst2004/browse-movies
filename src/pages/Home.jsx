@@ -85,6 +85,10 @@ function Home() {
                 results.push(m);
               }
             }
+          }
+          catch{
+            // keep silent
+          }
         }
         // Last-resort built-in hints for common queries in mock mode
         if (!results || results.length === 0) {
@@ -97,7 +101,7 @@ function Home() {
         }
         setSuggestions((results || []).slice(0, 8));
         setShowSuggestions((results || []).length > 0);
-      } catch (err) {
+      } catch (err) { // eslint-disable-line no-empty
         // keep silent for suggestions
         setSuggestions([]);
         setShowSuggestions(false);

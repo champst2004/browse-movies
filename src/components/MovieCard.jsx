@@ -32,11 +32,9 @@ function MovieCard({ movie, onClick }) {
     }
 
     const posterUrl = movie.poster_path
-        ? (movie.poster_path.startsWith("http://") || movie.poster_path.startsWith("https://")
+        ? movie.poster_path.startsWith("http")
             ? movie.poster_path
-            : (movie.poster_path.startsWith("/")
-                ? movie.poster_path
-                : `https://image.tmdb.org/t/p/w500${movie.poster_path}`))
+            : `https://image.tmdb.org/t/p/w500${movie.poster_path}`
         : "/st.jpg";
 
     function handleImgError(e) {
