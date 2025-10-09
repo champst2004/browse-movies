@@ -43,7 +43,7 @@ function MovieCard({ movie, onClick }) {
         // Stop showing st.jpg; hide broken image by removing src
         e.currentTarget.removeAttribute("src");
         e.currentTarget.alt = `${movie.title} poster unavailable`;
-        e.currentTarget.style.background = "#222";
+        e.currentTarget.classList.add("img-error");
     }
 
     return (
