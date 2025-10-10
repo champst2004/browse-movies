@@ -38,10 +38,30 @@ function MovieCard({ movie, onClick }) {
         : "/st.jpg";
 
     function handleImgError(e) {
-        // Stop showing st.jpg; hide broken image by removing src
-        e.currentTarget.removeAttribute("src");
-        e.currentTarget.alt = `${movie.title} poster unavailable`;
-        e.currentTarget.classList.add("img-error");
+        // Create a more attractive fallback when image fails
+        e.currentTarget.style.display = 'none';
+        const posterDiv = e.currentTarget.parentElement;
+        posterDiv.classList.add('img-error');
+        
+        // Create a fallback with movie title
+        const fallback = document.createElement('div');
+        fallback.className = 'poster-fallback';
+        
+        const fallbackContent = document.createElement('div');
+        fallbackContent.className = 'fallback-content';
+        
+        const fallbackIcon = document.createElement('div');
+        fallbackIcon.className = 'fallback-icon';
+        fallbackIcon.textContent = '🎬';
+        
+        const fallbackTitle = document.createElement('div');
+        fallbackTitle.className = 'fallback-title';
+        fallbackTitle.textContent = movie.title;
+        
+        fallbackContent.appendChild(fallbackIcon);
+        fallbackContent.appendChild(fallbackTitle);
+        fallback.appendChild(fallbackContent);
+        posterDiv.appendChild(fallback);
     }
 
     return (
@@ -65,7 +85,11 @@ function MovieCard({ movie, onClick }) {
             <div className="movie-info">
                 <h3>{movie.title}</h3>
                 <p>{releaseYear}</p>
-                <div className="movie-rating">⭐ {movie.vote_average?.toFixed(1)}/10</div>
+                <div className="movie-rating">
+                    <span className="rating-star">⭐</span>
+                    <span className="rating-value">{movie.vote_average?.toFixed(1)}</span>
+                    <span className="rating-max">/10</span>
+                </div>
             </div>
             <div className="movie-label">
                 <label htmlFor={`label-dropdown-${movie.id}`}>Label: </label>

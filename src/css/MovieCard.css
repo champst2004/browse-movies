@@ -1,29 +1,121 @@
 .movie-card {
   position: relative;
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
-  background-color: #1a1a1a;
-  transition: transform 0.2s;
+  background: linear-gradient(145deg, var(--card-bg, rgba(30, 30, 30, 0.8)), rgba(255, 255, 255, 0.05));
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   height: 100%;
   display: flex;
   flex-direction: column;
   cursor: pointer;
+  transform-origin: center bottom;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
 }
 
 .movie-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.2),
+    0 8px 16px rgba(0, 0, 0, 0.12);
+  border-color: rgba(255, 215, 0, 0.3);
+}
+
+.movie-card:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  background-size: 200px 100%;
+  animation: shimmer 2s infinite;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .movie-poster {
   position: relative;
   aspect-ratio: 2/3;
   width: 100%;
+  overflow: hidden;
 }
 
 .movie-poster img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.movie-card:hover .movie-poster img {
+  transform: scale(1.05);
+}
+
+/* Image error fallback */
+.movie-poster.img-error {
+  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+}
+
+.poster-fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+  color: var(--text);
+}
+
+.fallback-content {
+  text-align: center;
+  padding: 1rem;
+}
+
+.fallback-icon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.6;
+}
+
+.fallback-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+  opacity: 0.8;
 }
 
 .movie-overlay {
@@ -35,10 +127,10 @@
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.1),
-    rgba(0, 0, 0, 0.8)
+    rgba(0, 0, 0, 0.9)
   );
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: all 0.4s ease;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -56,22 +148,30 @@
   color: white;
   font-size: 1.5rem;
   padding: 0.5rem;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 2;
 }
 
 .fav-btn:hover {
-  background-color: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+  border-color: rgba(255, 71, 87, 0.5);
 }
 
 .fav-btn.active {
   color: #ff4757;
+  background: rgba(255, 71, 87, 0.2);
+  border-color: #ff4757;
+  box-shadow: 0 0 20px rgba(255, 71, 87, 0.4);
 }
 
 .rating-select {
@@ -85,28 +185,58 @@
 }
 
 .movie-info {
-  padding: 1rem;
+  padding: 1.25rem;
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75rem;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.02));
 }
 
 .movie-info h3 {
-  font-size: 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
   margin: 0;
-  color: white;
+  color: var(--text, #222);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .movie-info p {
-  color: #999;
+  color: var(--muted, #888);
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .movie-rating {
   color: #ffd700;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.rating-star {
+  font-size: 1rem;
+  filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.5));
+}
+
+.rating-value {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.rating-max {
+  opacity: 0.7;
+  font-size: 0.85rem;
 }
 
 @media (max-width: 768px) {
@@ -114,68 +244,140 @@
     font-size: 0.9rem;
   }
 
+  .movie-card:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  .movie-info {
+    padding: 1rem;
+  }
+
+  .movie-info h3 {
+    font-size: 1rem;
+  }
+
+  .fav-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+  }
+
+  .movie-label {
+    padding: 0 1rem 1rem;
+  }
+
+  .label-dropdown {
+    padding: 8px 36px 8px 12px;
+    font-size: 13px;
+  }
+
+  .movie-label::after {
+    right: 12px;
+    bottom: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-card:hover {
+    transform: translateY(-2px);
+  }
+
   .movie-info {
     padding: 0.75rem;
   }
 
-  .favorite-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 1.2rem;
+  .movie-label {
+    padding: 0 0.75rem 0.75rem;
   }
 }
 
 
+.movie-label {
+  padding: 0 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.movie-label label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  opacity: 0.8;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
 .label-dropdown {
     appearance: none;
-    background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
-    color: #f5f5f5;
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 6px 30px 6px 12px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px);
+    color: var(--text);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    padding: 10px 40px 10px 16px;
     font-size: 14px;
+    font-weight: 500;
     width: 100%;
-    max-width: 160px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     outline: none;
-    box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+    box-shadow: 
+      0 4px 12px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
     position: relative;
 }
 
-/* Hover + focus */
+/* Custom dropdown arrow */
+.movie-label {
+  position: relative;
+}
+
+.movie-label::after {
+    content: "▼";
+    position: absolute;
+    right: 16px;
+    bottom: 40px;
+    pointer-events: none;
+    font-size: 12px;
+    color: var(--muted);
+    transition: all 0.3s ease;
+}
+
+/* Hover + focus states */
 .label-dropdown:hover {
-    border-color: #ffd700;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+    border-color: rgba(255, 215, 0, 0.6);
+    box-shadow: 
+      0 6px 20px rgba(255, 215, 0, 0.15),
+      0 0 0 1px rgba(255, 215, 0, 0.3);
+    transform: translateY(-2px);
 }
 
 .label-dropdown:focus {
-    border-color: #ff4757;
-    box-shadow: 0 0 12px rgba(255, 71, 87, 0.4);
+    border-color: rgba(255, 71, 87, 0.6);
+    box-shadow: 
+      0 8px 25px rgba(255, 71, 87, 0.2),
+      0 0 0 2px rgba(255, 71, 87, 0.3);
+    transform: translateY(-2px);
 }
 
-/* Custom arrow */
-.label-dropdown::after {
-    content: "▼";
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    font-size: 12px;
-    color: #ccc;
+.movie-label:hover::after {
+    color: #ffd700;
+    transform: translateY(-2px);
 }
 
 /* Style dropdown options */
 .label-dropdown option {
-    background: #1a1a1a;
-    color: #f5f5f5;
-    padding: 8px;
+    background: var(--card-bg);
+    color: var(--text);
+    padding: 12px 16px;
+    border: none;
+    font-weight: 500;
 }
 
 /* Highlight selected option */
 .label-dropdown option:checked,
 .label-dropdown option:hover {
-    background: #333;
-    color: #ffd700;
+    background: linear-gradient(135deg, #ffd700, #ffbe0b);
+    color: #000;
 }
