@@ -208,7 +208,7 @@
 }
 
 .movie-info p {
-  color: var(--muted);
+  color: var(--muted, #888);
   font-size: 0.9rem;
   font-weight: 500;
 }
