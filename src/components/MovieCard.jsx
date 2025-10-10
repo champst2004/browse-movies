@@ -46,12 +46,21 @@ function MovieCard({ movie, onClick }) {
         // Create a fallback with movie title
         const fallback = document.createElement('div');
         fallback.className = 'poster-fallback';
-        fallback.innerHTML = `
-            <div class="fallback-content">
-                <div class="fallback-icon">🎬</div>
-                <div class="fallback-title">${movie.title}</div>
-            </div>
-        `;
+        
+        const fallbackContent = document.createElement('div');
+        fallbackContent.className = 'fallback-content';
+        
+        const fallbackIcon = document.createElement('div');
+        fallbackIcon.className = 'fallback-icon';
+        fallbackIcon.textContent = '🎬';
+        
+        const fallbackTitle = document.createElement('div');
+        fallbackTitle.className = 'fallback-title';
+        fallbackTitle.textContent = movie.title;
+        
+        fallbackContent.appendChild(fallbackIcon);
+        fallbackContent.appendChild(fallbackTitle);
+        fallback.appendChild(fallbackContent);
         posterDiv.appendChild(fallback);
     }
 
