@@ -1,5 +1,5 @@
 name: "🐛 Bug Report"
-about: "Report a reproducible issue or error"
+description: "Report a reproducible issue or error"
 title: "Bug: "
 labels: ["bug"]
 assignees: []
