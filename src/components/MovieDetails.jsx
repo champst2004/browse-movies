@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useMovieContext } from "../contexts/MovieContext";
+import { useThemeContext } from "../contexts/ThemeContext";
 import "../css/MovieDetails.css";
 import { getMovieDetails } from "../services/api";
 
 function MovieDetails({ movieId, onClose }) {
   const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
+  const { isDark } = useThemeContext();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
