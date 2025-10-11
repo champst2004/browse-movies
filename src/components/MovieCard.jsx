@@ -66,7 +66,6 @@ function MovieCard({ movie, onClick }) {
 
     return (
         // rendered for each card
-        // pass props?
         <div className="movie-card" onClick={handleCardClick}>
             <div className="movie-poster">
                 <img
