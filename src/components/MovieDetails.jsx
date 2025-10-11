@@ -1,11 +1,22 @@
-import { useState, useEffect } from "react";
-import { getMovieDetails } from "../services/api";
+import { useEffect, useState } from "react";
+import { useMovieContext } from "../contexts/MovieContext";
 import "../css/MovieDetails.css";
+import { getMovieDetails } from "../services/api";
 
 function MovieDetails({ movieId, onClose }) {
+  const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const favorite = movie ? isFavorite(movie.id) : false;
+
+  function onFavoriteClick(e) {
+    e.stopPropagation(); // prevent backdrop click from closing modal
+    if (favorite) removeFromFavorites(movie.id);
+    else addToFavorites(movie);
+  }
+
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
@@ -63,7 +74,16 @@ function MovieDetails({ movieId, onClose }) {
   return (
     <div className="modal-backdrop" onClick={handleBackdropClick}>
       <div className="modal-content">
-        <button onClick={onClose} className="close-btn">✕</button>
+        <div className="top-controls">
+          <button
+              className={`fav-btn-det ${favorite ? "active" : ""}`}
+              onClick={onFavoriteClick}
+          >
+              ♥
+          </button>
+          <button onClick={onClose} className="close-btn">✕</button>
+
+        </div>
         
         <div className="movie-details">
           <div className="details-header">
