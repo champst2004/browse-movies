@@ -84,7 +84,6 @@ function MovieDetails({ movieId, onClose }) {
           <button onClick={onClose} className="close-btn">✕</button>
 
         </div>
-        
         <div className="movie-details">
           <div className="details-header">
             {movie.backdrop_path && (
