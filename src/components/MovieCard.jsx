@@ -1,6 +1,6 @@
-import "../css/MovieCard.css"
 import React, { useState } from "react";
 import { useMovieContext } from "../contexts/MovieContext";
+import "../css/MovieCard.css";
 
 function MovieCard({ movie, onClick }) {
     const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
@@ -65,6 +65,7 @@ function MovieCard({ movie, onClick }) {
     }
 
     return (
+        // rendered for each card
         <div className="movie-card" onClick={handleCardClick}>
             <div className="movie-poster">
                 <img
@@ -73,6 +74,7 @@ function MovieCard({ movie, onClick }) {
                     loading="lazy"
                     onError={handleImgError}
                 />
+                {/* Favourite button */}
                 <div className="movie-overlay">
                     <button
                         className={`fav-btn ${favorite ? "active" : ""}`}
