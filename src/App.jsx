@@ -1,6 +1,7 @@
 import "./css/App.css";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
+import Trending from "./pages/Trending";
 import { Routes, Route } from "react-router-dom"
 import { MovieProvider } from "./contexts/MovieContext";
 import NavBar from "./components/NavBar";
@@ -16,6 +17,7 @@ function App() {
       <main className="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/trending" element={<Trending />} />
           <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </main>
@@ -26,4 +28,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;

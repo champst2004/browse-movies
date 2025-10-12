@@ -1,0 +1,53 @@
+.trending-page {
+  background: var(--color-bg);
+}
+.trending-page h1 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--color-accent);
+}
+.trending-card {
+  min-width: 220px;
+  max-width: 220px;
+  background: var(--color-card-bg);
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.12);
+  transition: box-shadow 0.2s, transform 0.2s;
+  position: relative;
+}
+.trending-card:hover {
+  box-shadow: 0 4px 24px var(--color-accent-glow, rgba(255, 80, 80, 0.25));
+  transform: scale(1.05);
+  z-index: 2;
+}
+.trending-card .movie-poster img {
+  border-radius: 1rem;
+}
+.trending-card .movie-info {
+  padding: 0.5rem 0.5rem 0.8rem 0.5rem;
+  text-align: center;
+}
+.trending-card .movie-rating {
+  margin-top: 0.3rem;
+  font-size: 1rem;
+  color: var(--color-accent);
+}
+.trending-card .fav-btn {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.trending-card .fav-btn.active {
+  background: var(--color-primary);
+}
