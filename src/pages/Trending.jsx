@@ -19,6 +19,7 @@ export default function Trending() {
           throw new Error("API key not configured");
         }
         const res = await fetch(TMDB_TRENDING_URL);
+        if (!res.ok) throw new Error('Failed to fetch trending movies');
         const data = await res.json();
         setMovies(data.results || []);
       } catch (err) {
