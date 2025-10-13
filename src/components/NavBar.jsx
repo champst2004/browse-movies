@@ -22,10 +22,24 @@ function NavBar() {
           <span className="brand-text">Movie App</span>
         </Link>
       </div>
-      <div className="navbar-links">
-        <Link to="/" className="nav-link">Home</Link>
-        <Link to="/trending" className="nav-link">Trending</Link>
-        <Link to="/favorites" className="nav-link">Favorites</Link>
+
+      {/* Hamburger menu button for mobile */}
+      <button
+        className="hamburger-btn"
+        onClick={handleMenuToggle}
+        aria-label="Toggle menu"
+        aria-expanded={menuOpen}
+      >
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+        <span className="hamburger-line"></span>
+      </button>
+
+      {/* Navigation links */}
+      <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
+        <Link to="/" className="nav-link" onClick={handleLinkClick}>Home</Link>
+        <Link to="/trending" className="nav-link" onClick={handleLinkClick}>Trending</Link>
+        <Link to="/favorites" className="nav-link" onClick={handleLinkClick}>Favorites</Link>
       </div>
 
       {/* Theme toggle button */}
