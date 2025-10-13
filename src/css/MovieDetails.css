@@ -24,6 +24,14 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
+.loading,
+.error-msg {
+  color: white;
+  padding: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
 .top-controls {
   position: relative;
   top: 1rem;
@@ -261,4 +269,84 @@
   .trailer-container iframe {
     height: 250px;
   }
+}
+
+/* Light Theme Styles */
+[data-theme="light"] .modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .modal-content {
+  background-color: #ffffff;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .loading,
+[data-theme="light"] .error-msg {
+  color: #333;
+}
+
+[data-theme="light"] .fav-btn-det {
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .fav-btn-det:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(255, 71, 87, 0.5);
+}
+
+[data-theme="light"] .close-btn {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] .close-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] .movie-details {
+  color: #333;
+}
+
+/* Keep header text white in light theme (it's on dark gradient background) */
+[data-theme="light"] .header-overlay h1,
+[data-theme="light"] .header-overlay .meta-info,
+[data-theme="light"] .header-overlay .meta-info span {
+  color: white;
+}
+
+/* Keep rating color gold in both themes - higher specificity to override above */
+[data-theme="light"] .modal-content .header-overlay .rating,
+[data-theme="light"] .header-overlay .rating {
+  color: #ffd700;
+}
+
+[data-theme="light"] .details-section h2 {
+  color: #333;
+}
+
+[data-theme="light"] .details-section p {
+  color: #666;
+}
+
+[data-theme="light"] .genre-tag {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+[data-theme="light"] .cast-member img,
+[data-theme="light"] .no-image {
+  background-color: #e0e0e0;
+}
+
+[data-theme="light"] .no-image {
+  color: #999;
+}
+
+[data-theme="light"] .character-name {
+  color: #666;
 }
