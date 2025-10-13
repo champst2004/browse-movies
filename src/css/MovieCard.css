@@ -274,7 +274,7 @@
   .movie-label::after {
     right: 35px;
     top: 50%;
-    transform: translateY(-30%);
+    transform: translateY(-50%);
     line-height: 1;
   }
 }
