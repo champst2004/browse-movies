@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import MovieCard from "../components/MovieCard";
 import MovieDetails from "../components/MovieDetails";
-import "../css/Home.css";
+import "../css/Trending.css";
 
 const TMDB_API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const TMDB_TRENDING_URL = `https://api.themoviedb.org/3/trending/movie/week?api_key=${TMDB_API_KEY}`;
