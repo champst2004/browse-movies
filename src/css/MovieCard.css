@@ -272,8 +272,10 @@
   }
 
   .movie-label::after {
-    right: 12px;
-    bottom: 32px;
+    right: 35px;
+    top: 50%;
+    transform: translateY(-30%);
+    line-height: 1;
   }
 }
 
@@ -310,12 +312,12 @@
 
 .label-dropdown {
     appearance: none;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+    backdrop-filter: blur(12px);
     color: var(--text);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    padding: 10px 40px 10px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 14px;
+    padding: 12px 40px 12px 16px;
     font-size: 14px;
     font-weight: 500;
     width: 100%;
@@ -323,8 +325,8 @@
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     outline: none;
     box-shadow: 
-      0 4px 12px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      0 6px 16px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
     position: relative;
 }
 
@@ -336,12 +338,16 @@
 .movie-label::after {
     content: "▼";
     position: absolute;
-    right: 16px;
-    bottom: 40px;
+    right: 35px;
+    top: 50%;
+    transform: translateY(-30%);
     pointer-events: none;
-    font-size: 12px;
-    color: var(--muted);
+    font-size: 10px;
+    color: var(--text, #fff);
+    opacity: 0.7;
     transition: all 0.3s ease;
+    z-index: 1;
+    line-height: 1;
 }
 
 /* Hover + focus states */
@@ -363,7 +369,8 @@
 
 .movie-label:hover::after {
     color: #ffd700;
-    transform: translateY(-2px);
+    opacity: 1;
+    transform: translateY(-50%) scale(1.1);
 }
 
 /* Style dropdown options */
