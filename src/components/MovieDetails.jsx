@@ -6,7 +6,7 @@ import { getMovieDetails } from "../services/api";
 
 function MovieDetails({ movieId, onClose }) {
   const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
-  const { isDark } = useThemeContext();
+  // Removed unused isDark from ThemeContext
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
