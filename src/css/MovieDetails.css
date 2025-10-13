@@ -320,8 +320,9 @@
 }
 
 /* Keep rating color gold in both themes - higher specificity to override above */
+[data-theme="light"] .modal-content .header-overlay .rating,
 [data-theme="light"] .header-overlay .rating {
-  color: #ffd700 !important;
+  color: #ffd700;
 }
 
 [data-theme="light"] .details-section h2 {
