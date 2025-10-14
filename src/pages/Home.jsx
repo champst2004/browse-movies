@@ -13,6 +13,7 @@ function Home() {
   const [hasSearched, setHasSearched] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [activeSuggestion, setActiveSuggestion] = useState(-1);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
   const [genres, setGenres] = useState([]);
   const [filters, setFilters] = useState({
@@ -23,6 +24,7 @@ function Home() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const fetchGuard = useRef(false);
+  const searchWrapRef = useRef(null);
 
   useEffect(() => {
     const loadGenres = async () => {
@@ -91,12 +93,15 @@ function Home() {
           const q = searchQuery.toLowerCase();
           results = builtIn.filter((m) => m.title.toLowerCase().includes(q));
         }
-        setSuggestions((results || []).slice(0, 8));
-        setShowSuggestions((results || []).length > 0);
+        const sliced = (results || []).slice(0, 8);
+        setSuggestions(sliced);
+        setShowSuggestions(sliced.length > 0);
+        setActiveSuggestion(sliced.length ? 0 : -1);
       } catch (err) { // eslint-disable-line no-empty
         // keep silent for suggestions
         setSuggestions([]);
         setShowSuggestions(false);
+        setActiveSuggestion(-1);
       }
     }, 300);
 
@@ -105,6 +110,18 @@ function Home() {
       controller.abort();
     };
   }, [searchQuery]);
+
+  // Close suggestions on outside click
+  useEffect(() => {
+    function handleClickOutside(e) {
+      if (searchWrapRef.current && !searchWrapRef.current.contains(e.target)) {
+        setShowSuggestions(false);
+        setActiveSuggestion(-1);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const loadPopularMovies = async () => {
@@ -188,21 +205,25 @@ function Home() {
     }
   };
 
-  const handleSuggestionSelect = async (title) => {
-    setSearchQuery(title);
+  const handleSuggestionSelect = async (suggestion) => {
+    setSearchQuery(suggestion.title || "");
     setShowSuggestions(false);
+    // If we have a numeric TMDB id, open details modal directly per enhancement
+    if (typeof suggestion.id === "number") {
+      setSelectedMovieId(suggestion.id);
+      return;
+    }
+    // fallback: perform a normal search selection behavior
     setLoading(true);
     try {
-      const results = await searchMovies(title);
+      const results = await searchMovies(suggestion.title);
       if (results && results.length > 0) {
-        const exact = results.find((m) => (m.title || "").toLowerCase() === title.toLowerCase());
+        const exact = results.find((m) => (m.title || "").toLowerCase() === (suggestion.title || "").toLowerCase());
         setMovies([exact || results[0]]);
       } else {
-        // Try popular list, else just show the selected suggestion as a single card
         const popular = await getPopularMovies(1);
-        const matched = popular.filter((m) => (m.title || "").toLowerCase() === title.toLowerCase());
-        const fromSuggestions = suggestions.find((s) => s.title === title);
-        const chosen = matched.length ? matched[0] : (fromSuggestions || null);
+        const matched = popular.filter((m) => (m.title || "").toLowerCase() === (suggestion.title || "").toLowerCase());
+        const chosen = matched.length ? matched[0] : null;
         setMovies(chosen ? [chosen] : []);
       }
       setError(null);
@@ -213,6 +234,43 @@ function Home() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const onSearchKeyDown = (e) => {
+    if (!showSuggestions || suggestions.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveSuggestion((i) => (i + 1) % suggestions.length);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveSuggestion((i) => (i - 1 + suggestions.length) % suggestions.length);
+    } else if (e.key === "Enter") {
+      if (activeSuggestion >= 0 && activeSuggestion < suggestions.length) {
+        e.preventDefault();
+        handleSuggestionSelect(suggestions[activeSuggestion]);
+      }
+    } else if (e.key === "Escape") {
+      setShowSuggestions(false);
+      setActiveSuggestion(-1);
+    }
+  };
+
+  const highlightMatch = (title, query) => {
+    if (!title) return null;
+    const q = (query || "").trim();
+    if (!q) return title;
+    const idx = title.toLowerCase().indexOf(q.toLowerCase());
+    if (idx === -1) return title;
+    const before = title.slice(0, idx);
+    const match = title.slice(idx, idx + q.length);
+    const after = title.slice(idx + q.length);
+    return (
+      <>
+        {before}
+        <span className="hl">{match}</span>
+        {after}
+      </>
+    );
   };
 
   const handleMovieClick = (movieId) => {
@@ -228,28 +286,38 @@ function Home() {
 
   return (
     <div className="home">
-      <form onSubmit={handleSearch} className="search-form">
+      <form ref={searchWrapRef} onSubmit={handleSearch} className="search-form">
         <input
           type="text"
           placeholder="Search for movies"
           className="search-input"
           value={searchQuery}
-          onChange={(e) => { setSearchQuery(e.target.value); setHasSearched(false); }}
+          onChange={(e) => { setSearchQuery(e.target.value); setHasSearched(false); setShowSuggestions(true); }}
           onFocus={() => { if (suggestions.length) setShowSuggestions(true); }}
+          onKeyDown={onSearchKeyDown}
           onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
         />
         <button type="submit" className="search-btn">Search</button>
         {showSuggestions && suggestions.length > 0 && (
           <ul className="search-suggestions">
-            {suggestions.map((s) => (
-              <li
-                key={s.id}
-                className="suggestion-item"
-                onMouseDown={() => handleSuggestionSelect(s.title)}
-              >
-                {s.title}
-              </li>
-            ))}
+            {suggestions.map((s, idx) => {
+              const img = s.poster_path ? `https://image.tmdb.org/t/p/w92${s.poster_path}` : "";
+              return (
+                <li
+                  key={s.id ?? s.title ?? idx}
+                  className={`suggestion-item ${idx === activeSuggestion ? "active" : ""}`}
+                  onMouseDown={() => handleSuggestionSelect(s)}
+                >
+                  <img className="suggestion-thumb" src={img} alt="" onError={(e) => { e.currentTarget.style.visibility = "hidden"; }} />
+                  <div className="suggestion-content">
+                    <div className="suggestion-title">{highlightMatch(s.title, searchQuery)}</div>
+                    {s.release_date ? (
+                      <div className="suggestion-meta">{(s.release_date || "").split("-")[0]}</div>
+                    ) : null}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
       </form>
