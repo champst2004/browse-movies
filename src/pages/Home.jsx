@@ -13,8 +13,8 @@ function Home() {
   const [hasSearched, setHasSearched] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [activeSuggestion, setActiveSuggestion] = useState(-1);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
+  const [searchHistory, setSearchHistory] = useState([]);
   const [genres, setGenres] = useState([]);
   const [filters, setFilters] = useState({
     genre: "",
@@ -25,6 +25,18 @@ function Home() {
   const [totalPages, setTotalPages] = useState(null);
   const fetchGuard = useRef(false);
   const searchWrapRef = useRef(null);
+
+  // Load search history from localStorage on mount
+  useEffect(() => {
+    try {
+      const history = localStorage.getItem("searchHistory");
+      if (history) {
+        setSearchHistory(JSON.parse(history));
+      }
+    } catch (err) {
+      console.error("Failed to load search history:", err);
+    }
+  }, []);
 
   useEffect(() => {
     const loadGenres = async () => {
@@ -93,15 +105,12 @@ function Home() {
           const q = searchQuery.toLowerCase();
           results = builtIn.filter((m) => m.title.toLowerCase().includes(q));
         }
-        const sliced = (results || []).slice(0, 8);
-        setSuggestions(sliced);
-        setShowSuggestions(sliced.length > 0);
-        setActiveSuggestion(sliced.length ? 0 : -1);
+        setSuggestions((results || []).slice(0, 6));
+        setShowSuggestions((results || []).length > 0);
       } catch (err) { // eslint-disable-line no-empty
         // keep silent for suggestions
         setSuggestions([]);
         setShowSuggestions(false);
-        setActiveSuggestion(-1);
       }
     }, 300);
 
@@ -116,7 +125,6 @@ function Home() {
     function handleClickOutside(e) {
       if (searchWrapRef.current && !searchWrapRef.current.contains(e.target)) {
         setShowSuggestions(false);
-        setActiveSuggestion(-1);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -148,6 +156,9 @@ function Home() {
 
     if (!searchQuery.trim()) return;
     if (loading) return;
+
+    // Save search text to history
+    addToSearchHistory(searchQuery.trim());
 
     setLoading(true);
     try {
@@ -205,80 +216,73 @@ function Home() {
     }
   };
 
-  const handleSuggestionSelect = async (suggestion) => {
-    setSearchQuery(suggestion.title || "");
-    setShowSuggestions(false);
-    // If we have a numeric TMDB id, open details modal directly per enhancement
-    if (typeof suggestion.id === "number") {
-      setSelectedMovieId(suggestion.id);
-      return;
-    }
-    // fallback: perform a normal search selection behavior
-    setLoading(true);
+  const addToSearchHistory = (item) => {
     try {
-      const results = await searchMovies(suggestion.title);
-      if (results && results.length > 0) {
-        const exact = results.find((m) => (m.title || "").toLowerCase() === (suggestion.title || "").toLowerCase());
-        setMovies([exact || results[0]]);
-      } else {
-        const popular = await getPopularMovies(1);
-        const matched = popular.filter((m) => (m.title || "").toLowerCase() === (suggestion.title || "").toLowerCase());
-        const chosen = matched.length ? matched[0] : null;
-        setMovies(chosen ? [chosen] : []);
-      }
-      setError(null);
-      setFilters({ genre: "", year: "", rating: "" });
-      setHasSearched(true);
+      const isText = typeof item === 'string';
+      const newItem = isText 
+        ? { type: 'text', value: item, timestamp: Date.now() }
+        : { type: 'movie', value: item, timestamp: Date.now() };
+      
+      // Remove duplicates based on type and value
+      const filtered = searchHistory.filter(h => {
+        if (h.type === 'text' && isText) {
+          return h.value.toLowerCase() !== item.toLowerCase();
+        } else if (h.type === 'movie' && !isText) {
+          return h.value.id !== item.id;
+        }
+        return true;
+      });
+      
+      const newHistory = [newItem, ...filtered].slice(0, 5); // Keep last 5
+      setSearchHistory(newHistory);
+      localStorage.setItem("searchHistory", JSON.stringify(newHistory));
     } catch (err) {
-      setError("Failed to search the movie");
-    } finally {
-      setLoading(false);
+      console.error("Failed to save search history:", err);
     }
   };
 
-  const onSearchKeyDown = (e) => {
-    if (!showSuggestions || suggestions.length === 0) return;
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setActiveSuggestion((i) => (i + 1) % suggestions.length);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setActiveSuggestion((i) => (i - 1 + suggestions.length) % suggestions.length);
-    } else if (e.key === "Enter") {
-      if (activeSuggestion >= 0 && activeSuggestion < suggestions.length) {
-        e.preventDefault();
-        handleSuggestionSelect(suggestions[activeSuggestion]);
-      }
-    } else if (e.key === "Escape") {
+  const handleSuggestionSelect = async (item) => {
+    // Check if it's a text query or a movie object
+    if (typeof item === "string") {
+      // It's a search text - perform search
+      setSearchQuery(item);
       setShowSuggestions(false);
-      setActiveSuggestion(-1);
+      // Trigger search programmatically
+      const fakeEvent = { preventDefault: () => {} };
+      await handleSearch(fakeEvent);
+    } else {
+      // It's a movie object
+      setSearchQuery(item.title);
+      setShowSuggestions(false);
+      
+      // Add to search history
+      addToSearchHistory(item);
+      
+      // Open detail page if movie has numeric ID
+      if (typeof item.id === "number") {
+        setSelectedMovieId(item.id);
+      } else {
+        // Log ID if not implemented
+        console.log("Movie ID:", item.id, "Title:", item.title);
+      }
     }
-  };
-
-  const highlightMatch = (title, query) => {
-    if (!title) return null;
-    const q = (query || "").trim();
-    if (!q) return title;
-    const idx = title.toLowerCase().indexOf(q.toLowerCase());
-    if (idx === -1) return title;
-    const before = title.slice(0, idx);
-    const match = title.slice(idx, idx + q.length);
-    const after = title.slice(idx + q.length);
-    return (
-      <>
-        {before}
-        <span className="hl">{match}</span>
-        {after}
-      </>
-    );
   };
 
   const handleMovieClick = (movieId) => {
     setSelectedMovieId(movieId);
+    
+    // Add clicked movie to search history
+    const movie = movies.find(m => m.id === movieId);
+    if (movie) {
+      addToSearchHistory(movie);
+    }
   };
 
   const handleCloseDetails = () => {
     setSelectedMovieId(null);
+    // Clear search when closing details to show browse history
+    setSearchQuery("");
+    setShowSuggestions(false);
   };
 
   const currentYear = new Date().getFullYear();
@@ -292,31 +296,68 @@ function Home() {
           placeholder="Search for movies"
           className="search-input"
           value={searchQuery}
-          onChange={(e) => { setSearchQuery(e.target.value); setHasSearched(false); setShowSuggestions(true); }}
-          onFocus={() => { if (suggestions.length) setShowSuggestions(true); }}
-          onKeyDown={onSearchKeyDown}
-          onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+          onChange={(e) => { 
+            setSearchQuery(e.target.value); 
+            setHasSearched(false); 
+          }}
+          onFocus={() => { 
+            // Show search history if query is empty, otherwise show suggestions
+            if (searchQuery.trim().length === 0 && searchHistory.length > 0) {
+              setSuggestions(searchHistory);
+              setShowSuggestions(true);
+            } else if (suggestions.length > 0) {
+              setShowSuggestions(true);
+            }
+          }}
+          onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
         />
         <button type="submit" className="search-btn">Search</button>
         {showSuggestions && suggestions.length > 0 && (
           <ul className="search-suggestions">
+            {searchQuery.trim().length === 0 && (
+              <li className="suggestion-header">Recent Searches</li>
+            )}
             {suggestions.map((s, idx) => {
-              const img = s.poster_path ? `https://image.tmdb.org/t/p/w92${s.poster_path}` : "";
-              return (
-                <li
-                  key={s.id ?? s.title ?? idx}
-                  className={`suggestion-item ${idx === activeSuggestion ? "active" : ""}`}
-                  onMouseDown={() => handleSuggestionSelect(s)}
-                >
-                  <img className="suggestion-thumb" src={img} alt="" onError={(e) => { e.currentTarget.style.visibility = "hidden"; }} />
-                  <div className="suggestion-content">
-                    <div className="suggestion-title">{highlightMatch(s.title, searchQuery)}</div>
-                    {s.release_date ? (
-                      <div className="suggestion-meta">{(s.release_date || "").split("-")[0]}</div>
-                    ) : null}
-                  </div>
-                </li>
-              );
+              // Handle both text searches and movie objects
+              const isText = s.type === 'text' || typeof s === 'string';
+              const item = isText ? s.value || s : s.value || s;
+              
+              if (isText) {
+                // Text search item
+                return (
+                  <li
+                    key={`text-${idx}`}
+                    className="suggestion-item suggestion-text"
+                    onMouseDown={() => handleSuggestionSelect(item)}
+                  >
+                    <span className="suggestion-icon">🔍</span>
+                    <span className="suggestion-title">{item}</span>
+                  </li>
+                );
+              } else {
+                // Movie object
+                const posterUrl = item.poster_path 
+                  ? `https://image.tmdb.org/t/p/w92${item.poster_path}` 
+                  : null;
+                
+                return (
+                  <li
+                    key={item.id || `movie-${idx}`}
+                    className="suggestion-item"
+                    onMouseDown={() => handleSuggestionSelect(item)}
+                  >
+                    {posterUrl && (
+                      <img 
+                        src={posterUrl} 
+                        alt={item.title}
+                        className="suggestion-poster"
+                        onError={(e) => { e.target.style.display = 'none'; }}
+                      />
+                    )}
+                    <span className="suggestion-title">{item.title}</span>
+                  </li>
+                );
+              }
             })}
           </ul>
         )}
