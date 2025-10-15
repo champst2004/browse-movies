@@ -206,3 +206,12 @@
     margin-left: 1rem;
   }
 }
+.nav-link.active-link {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.nav-link.active-link::after {
+  width: 100%;
+  background: var(--accent);
+}

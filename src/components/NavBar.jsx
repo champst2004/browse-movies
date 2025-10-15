@@ -1,48 +1,58 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../css/NavBar.css";
 import { useThemeContext } from "../contexts/ThemeContext";
 import useScrollPosition from "../hooks/useScrollPosition";
 
 function NavBar() {
   const { toggleTheme, isDark } = useThemeContext();
-  const isScrolled = useScrollPosition(50); // Detect scroll past 50px
-  const [menuOpen, setMenuOpen] = useState(false); // State for mobile menu toggle
+  const isScrolled = useScrollPosition(50);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleMenuToggle = () => setMenuOpen(prev => !prev);
-
-  const handleLinkClick = () => setMenuOpen(false); // Close menu when a link is clicked
+  const handleLinkClick = () => setMenuOpen(false);
 
   return (
     <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-      {/* Brand logo and name */}
       <div className="navbar-brand">
-        <Link to="/" className="brand-link">
+        <NavLink to="/" className="brand-link" onClick={handleLinkClick}>
           <img src="/movie_logo.jpg" alt="Movie App logo" className="brand-logo" />
           <span className="brand-text">Movie App</span>
-        </Link>
+        </NavLink>
       </div>
 
-      {/* Hamburger menu button for mobile */}
-      <button
-        className="hamburger-btn"
-        onClick={handleMenuToggle}
-        aria-label="Toggle menu"
-        aria-expanded={menuOpen}
-      >
+      <button className="hamburger-btn" onClick={handleMenuToggle}>
         <span className="hamburger-line"></span>
         <span className="hamburger-line"></span>
         <span className="hamburger-line"></span>
       </button>
 
-      {/* Navigation links */}
       <div className={`navbar-links ${menuOpen ? "active" : ""}`}>
-        <Link to="/" className="nav-link" onClick={handleLinkClick}>Home</Link>
-        <Link to="/trending" className="nav-link" onClick={handleLinkClick}>Trending</Link>
-        <Link to="/favorites" className="nav-link" onClick={handleLinkClick}>Favorites</Link>
+        <NavLink
+          to="/"
+          className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}
+          onClick={handleLinkClick}
+        >
+          Home
+        </NavLink>
+
+        <NavLink
+          to="/trending"
+          className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}
+          onClick={handleLinkClick}
+        >
+          Trending
+        </NavLink>
+
+        <NavLink
+          to="/favorites"
+          className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}
+          onClick={handleLinkClick}
+        >
+          Favorites
+        </NavLink>
       </div>
 
-      {/* Theme toggle button */}
       <button
         className="theme-toggle-btn"
         onClick={toggleTheme}
