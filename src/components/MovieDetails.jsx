@@ -11,6 +11,19 @@ function MovieDetails({ movieId, onClose }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Add body scroll lock when modal is open
+  useEffect(() => {
+    // Save the current overflow style
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    // Prevent scrolling on the body
+    document.body.style.overflow = 'hidden';
+    
+    // Cleanup function to restore original style when component unmounts
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
+
   const favorite = movie ? isFavorite(movie.id) : false;
 
   function onFavoriteClick(e) {
