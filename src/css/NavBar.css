@@ -208,10 +208,10 @@
 }
 .nav-link.active-link {
   font-weight: 700;
-  color: var(--accent);
+  color: var(--color-accent);
 }
 
 .nav-link.active-link::after {
   width: 100%;
-  background: var(--accent);
+  background: var(--color-accent);
 }
