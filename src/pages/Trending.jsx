@@ -15,11 +15,9 @@ export default function Trending() {
     async function fetchTrending() {
       setLoading(true);
       try {
-        if (!TMDB_API_KEY) {
-          throw new Error("API key not configured");
-        }
+        if (!TMDB_API_KEY) throw new Error("API key not configured");
         const res = await fetch(TMDB_TRENDING_URL);
-        if (!res.ok) throw new Error('Failed to fetch trending movies');
+        if (!res.ok) throw new Error("Failed to fetch trending movies");
         const data = await res.json();
         setMovies(data.results || []);
       } catch (err) {
@@ -40,10 +38,12 @@ export default function Trending() {
   }
 
   return (
-    <div className="home-container">
+    <div className="trending-page">
       <header className="home-header">
-        <h1>🔥 Trending Now</h1>
-        <p>Discover the most popular movies this week</p>
+        <h1 className="trending-heading">
+          <span className="emoji">🔥</span> Trending <span className="highlight">Now</span>
+        </h1>
+        <p className="trending-subtitle">Discover the most popular movies this week</p>
       </header>
 
       <main className="home-content">
@@ -58,21 +58,14 @@ export default function Trending() {
         ) : (
           <div className="movies-grid">
             {movies.map((movie) => (
-              <MovieCard
-                key={movie.id}
-                movie={movie}
-                onClick={handleMovieClick}
-              />
+              <MovieCard key={movie.id} movie={movie} onClick={handleMovieClick} />
             ))}
           </div>
         )}
       </main>
 
       {selectedMovieId && (
-        <MovieDetails
-          movieId={selectedMovieId}
-          onClose={handleCloseModal}
-        />
+        <MovieDetails movieId={selectedMovieId} onClose={handleCloseModal} />
       )}
     </div>
   );

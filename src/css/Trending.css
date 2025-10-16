@@ -1,12 +1,37 @@
 .trending-page {
   background: var(--color-bg);
+  padding: 2rem 1rem;
 }
-.trending-page h1 {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
-  color: var(--color-accent);
+
+.trending-heading {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-align: center;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
 }
+
+.trending-heading .emoji {
+  color: initial; /* keep emoji color normal */
+}
+
+.trending-heading .highlight {
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.trending-subtitle {
+  text-align: center;
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+}
+
 .trending-card {
   min-width: 220px;
   max-width: 220px;
@@ -50,4 +75,50 @@
 }
 .trending-card .fav-btn.active {
   background: var(--color-primary);
+}
+
+/* Header container */
+.trending-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centers the heading horizontally */
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 2rem;
+  padding: 1rem 0;
+}
+
+/* Heading text */
+.trending-heading {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* space between emoji and text */
+  color: var(--color-primary); /* fallback color replaced with design system variable */
+}
+
+/* Emoji */
+.trending-heading .emoji {
+  font-size: 2.8rem;
+  color: #ffb347; /* optional custom color for emoji */
+}
+
+/* Gradient for "Now" */
+.trending-heading .highlight {
+  background: linear-gradient(90deg, #ff5f6d, #ffc371);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent; /* ensures gradient shows */
+  font-weight: 800;
+}
+
+/* Subtitle */
+.trending-subtitle {
+  font-size: 1.1rem;
+  color: var(--color-text-secondary);
+  opacity: 0.9;
+  margin-top: 0.5rem;
 }
