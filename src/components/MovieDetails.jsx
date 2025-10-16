@@ -13,8 +13,8 @@ function MovieDetails({ movieId, onClose }) {
 
   // Add body scroll lock when modal is open
   useEffect(() => {
-    // Save the current overflow style
-    const originalStyle = window.getComputedStyle(document.body).overflow;
+    // Save the current inline overflow style
+    const originalStyle = document.body.style.overflow;
     // Prevent scrolling on the body
     document.body.style.overflow = 'hidden';
     
