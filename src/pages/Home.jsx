@@ -1,11 +1,14 @@
 import MovieCard from "../components/MovieCard";
 import MovieDetails from "../components/MovieDetails";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { getPopularMovies, searchMovies, getGenres, discoverMovies } from "../services/api";
 import "../css/Home.css";
 // Removed IntersectionObserver-based infinite scroll
 
 function Home() {
+  const navigate = useNavigate();
+  const params = useParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
@@ -25,6 +28,13 @@ function Home() {
   const [totalPages, setTotalPages] = useState(null);
   const fetchGuard = useRef(false);
   const searchWrapRef = useRef(null);
+  
+  // Open modal if /movie/:id route is active
+  useEffect(() => {
+    if (params.movieId) {
+      setSelectedMovieId(Number(params.movieId));
+    }
+  }, [params.movieId]);
 
   // Load search history from localStorage on mount
   useEffect(() => {
@@ -270,7 +280,7 @@ function Home() {
 
   const handleMovieClick = (movieId) => {
     setSelectedMovieId(movieId);
-    
+    navigate(`/movie/${movieId}`);
     // Add clicked movie to search history
     const movie = movies.find(m => m.id === movieId);
     if (movie) {
@@ -280,7 +290,7 @@ function Home() {
 
   const handleCloseDetails = () => {
     setSelectedMovieId(null);
-    // Clear search when closing details to show browse history
+    navigate("/");
     setSearchQuery("");
     setShowSuggestions(false);
   };

@@ -13,11 +13,11 @@ function MovieCard({ movie, onClick }) {
     });
 
     const [selectedLabel, setSelectedLabel] = useState(movieLabels[movie.id] || "");
-    // Handle the tag change
+
     const handleLabelChange = (movieId, label) => {
         const updatedLabels = { ...movieLabels, [movieId]: label };
         setMovieLabels(updatedLabels);
-        localStorage.setItem("movieLabels", JSON.stringify(updatedLabels)); // Save to localStorage
+        localStorage.setItem("movieLabels", JSON.stringify(updatedLabels));
         setSelectedLabel(label);
     };
 
@@ -38,34 +38,47 @@ function MovieCard({ movie, onClick }) {
         : "/st.jpg";
 
     function handleImgError(e) {
-        // Create a more attractive fallback when image fails
-        e.currentTarget.style.display = 'none';
+        e.currentTarget.style.display = "none";
         const posterDiv = e.currentTarget.parentElement;
-        posterDiv.classList.add('img-error');
-        
-        // Create a fallback with movie title
-        const fallback = document.createElement('div');
-        fallback.className = 'poster-fallback';
-        
-        const fallbackContent = document.createElement('div');
-        fallbackContent.className = 'fallback-content';
-        
-        const fallbackIcon = document.createElement('div');
-        fallbackIcon.className = 'fallback-icon';
-        fallbackIcon.textContent = '🎬';
-        
-        const fallbackTitle = document.createElement('div');
-        fallbackTitle.className = 'fallback-title';
+        posterDiv.classList.add("img-error");
+
+        const fallback = document.createElement("div");
+        fallback.className = "poster-fallback";
+
+        const fallbackContent = document.createElement("div");
+        fallbackContent.className = "fallback-content";
+
+        const fallbackIcon = document.createElement("div");
+        fallbackIcon.className = "fallback-icon";
+        fallbackIcon.textContent = "🎬";
+
+        const fallbackTitle = document.createElement("div");
+        fallbackTitle.className = "fallback-title";
         fallbackTitle.textContent = movie.title;
-        
+
         fallbackContent.appendChild(fallbackIcon);
         fallbackContent.appendChild(fallbackTitle);
         fallback.appendChild(fallbackContent);
         posterDiv.appendChild(fallback);
     }
 
+    function handleShareClick(e) {
+        e.stopPropagation();
+        const movieUrl = `${window.location.origin}/movie/${movie.id}`;
+
+        if (navigator.share) {
+            navigator.share({
+                title: movie.title,
+                text: `Check out this movie: ${movie.title}`,
+                url: movieUrl,
+            }).catch((err) => console.error("Share failed:", err));
+        } else {
+            navigator.clipboard.writeText(movieUrl);
+            alert("Link copied to clipboard!");
+        }
+    }
+
     return (
-        // rendered for each card
         <div className="movie-card" onClick={handleCardClick}>
             <div className="movie-poster">
                 <img
@@ -74,7 +87,6 @@ function MovieCard({ movie, onClick }) {
                     loading="lazy"
                     onError={handleImgError}
                 />
-                {/* Favourite button */}
                 <div className="movie-overlay">
                     <button
                         className={`fav-btn ${favorite ? "active" : ""}`}
@@ -82,8 +94,12 @@ function MovieCard({ movie, onClick }) {
                     >
                         ♥
                     </button>
+                    <button className="share-btn" onClick={handleShareClick}>
+                        Share
+                    </button>
                 </div>
             </div>
+
             <div className="movie-info">
                 <h3>{movie.title}</h3>
                 <p>{releaseYear}</p>
@@ -93,13 +109,14 @@ function MovieCard({ movie, onClick }) {
                     <span className="rating-max">/10</span>
                 </div>
             </div>
+
             <div className="movie-label">
                 <label htmlFor={`label-dropdown-${movie.id}`}>Label: </label>
                 <select
                     id={`label-dropdown-${movie.id}`}
                     value={selectedLabel}
                     onChange={(e) => handleLabelChange(movie.id, e.target.value)}
-                    onClick={(e) => e.stopPropagation()}   // ⬅ prevent modal from opening
+                    onClick={(e) => e.stopPropagation()}
                     className="label-dropdown"
                 >
                     <option value="">Select Label</option>
@@ -109,8 +126,6 @@ function MovieCard({ movie, onClick }) {
                     <option value="dont-watch">Don't Watch</option>
                 </select>
             </div>
-
-
         </div>
     );
 }

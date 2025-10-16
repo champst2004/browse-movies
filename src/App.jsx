@@ -19,6 +19,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/trending" element={<Trending />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="/movie/:movieId" element={<Home />} /> 
         </Routes>
       </main>
       <Footer /> 
