@@ -97,7 +97,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem; /* space between emoji and text */
-  color: #ff5f6d; /* fallback color */
+  color: var(--color-primary); /* fallback color replaced with design system variable */
 }
 
 /* Emoji */
