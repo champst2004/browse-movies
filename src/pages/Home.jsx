@@ -33,6 +33,8 @@ function Home() {
   useEffect(() => {
     if (params.movieId) {
       setSelectedMovieId(Number(params.movieId));
+    } else {
+      setSelectedMovieId(null);
     }
   }, [params.movieId]);
 
