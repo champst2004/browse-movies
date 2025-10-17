@@ -62,21 +62,51 @@ function MovieCard({ movie, onClick }) {
         posterDiv.appendChild(fallback);
     }
 
-    function handleShareClick(e) {
+    async function handleShareClick(e) {
         e.stopPropagation();
         const movieUrl = `${window.location.origin}/movie/${movie.id}`;
 
-        if (navigator.share) {
-            navigator.share({
-                title: movie.title,
-                text: `Check out this movie: ${movie.title}`,
-                url: movieUrl,
-            }).catch((err) => console.error("Share failed:", err));
-        } else {
-            navigator.clipboard.writeText(movieUrl);
-            alert("Link copied to clipboard!");
+        try {
+            if (navigator.share) {
+                await navigator.share({
+                    title: movie.title,
+                    text: `Check out this movie: ${movie.title}`,
+                    url: movieUrl,
+                });
+            } else if (navigator.clipboard?.writeText) {
+                await navigator.clipboard.writeText(movieUrl);
+                showToast("Link copied to clipboard!");
+            } 
+            else {
+                showToast("Share functionality is not available.");
+            }
+        }
+        catch (err) {
+            console.error("Share or clipboard operation failed:", err);
+            showToast("An error occurred while trying to share.");
         }
     }
+
+    function showToast(message) {
+        const toast = document.createElement('div');
+        toast.textContent = message;
+        toast.style.position = 'fixed';
+        toast.style.bottom = '20px';
+        toast.style.left = '50%';
+        toast.style.transform = 'translateX(-50%)';
+        toast.style.backgroundColor = '#333';
+        toast.style.color = '#fff';
+        toast.style.padding = '10px';
+        toast.style.borderRadius = '5px';
+        toast.style.zIndex = 1000;
+        toast.style.fontSize = '14px';
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
+
 
     return (
         <div className="movie-card" onClick={handleCardClick}>
