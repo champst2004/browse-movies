@@ -51,7 +51,7 @@ function WatchLater() {
         </form>
 
         <div className="movies-grid">
-          {[...new Map((filteredList || []).map((m) => [ (m.title || m.id), m ])).values()].map((movie) => (
+          {[...new Map((filteredList || []).map((m) => [ m.id, m ])).values()].map((movie) => (
             <MovieCard movie={movie} key={movie.id} onClick={handleMovieClick} />
           ))}
         </div>
