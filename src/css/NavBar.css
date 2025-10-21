@@ -1,12 +1,8 @@
-/* ----------------------------------- */
-/* ⚡ Modern Dark Navbar with Animations */
-/* ----------------------------------- */
-
-/* Keyframe animations */
+/* Keyframe animations for a playful feel */
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translateY(-12px);
+    transform: translateY(-100%);
   }
   to {
     opacity: 1;
@@ -19,43 +15,43 @@
     transform: scale(1);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
   100% {
     transform: scale(1);
   }
 }
 
-/* Navbar base */
+/* Base navbar style */
 .navbar {
-  padding: 1.2rem 2rem;
+  padding: 1.5rem 2.5rem;
   display: flex;
   gap: 1rem;
   justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
-  z-index: 100;
-  background-color: #0b0b0b;
-  transition:
-    background-color 220ms ease,
-    padding 220ms ease,
-    box-shadow 220ms ease;
-  animation: fadeInDown 300ms ease-out;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 50;
+  transition: all 0.25s ease;
+  animation: fadeInDown 0.6s ease-out;
+  background-color: var(--nav-bg);
+  backdrop-filter: none;
 }
 
+/* when scrolled */
 .navbar.scrolled {
-  padding: 0.75rem 1.5rem;
-  background-color: #000;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  padding: 0.8rem 2rem;
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  background-color: var(--nav-bg);
+  box-shadow: var(--shadow);
+  border-bottom: 1px solid var(--nav-border);
 }
 
-/* Brand section */
+/* Brand */
 .navbar-brand {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
 }
 
 .brand-link {
@@ -63,244 +59,218 @@
   align-items: center;
   gap: 0.8rem;
   text-decoration: none;
-  outline: none;
+  color: inherit;
 }
 
 .brand-logo {
-  width: 46px;
-  height: 46px;
-  border-radius: 10px;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
   object-fit: cover;
-  transition:
-    transform 400ms cubic-bezier(0.2, 0.9, 0.3, 1),
-    box-shadow 250ms ease;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  transition: transform 0.45s ease;
 }
 
-.brand-link:hover .brand-logo,
-.brand-link:focus-visible .brand-logo {
-  transform: rotate(360deg) scale(1.08);
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+.brand-link:hover .brand-logo {
+  transform: rotate(360deg) scale(1.05);
 }
 
 .brand-text {
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   font-weight: 800;
-  color: #fff;
-  letter-spacing: 0.2px;
+  color: var(--text);
+  line-height: 1;
 }
 
-/* Nav links */
+/* Navigation links */
 .navbar-links {
   display: flex;
-  gap: 1.5rem;
+  gap: 1.8rem;
   align-items: center;
-  transition:
-    opacity 200ms ease,
-    transform 200ms ease;
 }
 
 .nav-link {
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  padding: 0.4rem 0;
+  padding: 0.35rem 0;
   position: relative;
   text-decoration: none;
-  color: #f2f2f2;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: 6px;
-  padding-inline: 0.25rem;
+  color: var(--text);
+  transition: color 0.18s ease;
 }
 
 .nav-link::after {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   bottom: -6px;
   width: 0;
   height: 3px;
-  background: var(--accent, #ffd700);
+  background: var(--accent);
   border-radius: 6px;
-  transition: width 260ms ease;
+  transition: width 0.22s ease;
 }
 
-.nav-link:hover::after,
-.nav-link:focus-visible::after,
-.nav-link.active-link::after {
+.nav-link:hover::after {
   width: 100%;
 }
 
 .nav-link:hover {
-  animation: navLinkHover 280ms ease-in-out;
-  background: rgba(255, 215, 0, 0.1);
-  color: #ffd700;
-  box-shadow: 0 0 8px rgba(255, 215, 0, 0.25);
+  animation: navLinkHover 0.35s ease-in-out;
 }
 
-.nav-link:focus-visible {
-  outline: 3px solid rgba(255, 215, 0, 0.2);
-  outline-offset: 3px;
-}
-
-/* Watch later badge */
-.badge {
-  background: #ffd700;
-  color: #000;
-  font-size: 0.78rem;
+/* active link */
+.nav-link.active-link {
   font-weight: 700;
-  padding: 0.14rem 0.5rem;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 0.35rem;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+  color: var(--color-accent);
 }
 
-/* Theme toggle button */
+.nav-link.active-link::after {
+  width: 100%;
+  background: var(--color-accent);
+}
+
+/* Theme toggle button and inline SVG styling
+   We intentionally style the SVGs placed inline in JSX by targeting .theme-icon svg.
+   This keeps all visual tweaks in CSS and works with the inline markup. */
 .theme-toggle-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1.5px solid rgba(255, 255, 255, 0.15);
-  color: #fff;
+  background: transparent;
+  border: 2px solid var(--text);
+  color: var(--text);
   padding: 0.45rem;
-  border-radius: 10px;
-  font-size: 1.15rem;
+  border-radius: 50%;
+  font-size: 1rem;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
-  transition:
-    transform 200ms ease,
-    background-color 200ms ease,
-    color 200ms ease;
+  transition: transform 0.2s ease, background-color 0.18s ease, color 0.18s ease;
+}
+
+.theme-toggle-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.12);
 }
 
 .theme-toggle-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
   transform: scale(1.05);
-  animation: glowPulse 1.5s infinite ease-in-out;
 }
 
-/* Icon container */
-.theme-icon {
-  display: flex;
+/* Target inline SVGs inside the theme icon container */
+.theme-icon,
+.icon {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition:
-    transform 0.4s ease,
-    color 0.4s ease;
 }
 
-/* Rotate on hover */
-.theme-toggle-btn:hover .theme-icon {
-  transform: rotate(360deg);
+/* SVG sizing + color inheritance */
+.theme-icon svg,
+.icon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  stroke: currentColor; /* make stroke use button color */
+  fill: none;           /* keep icons outlined unless SVG sets fill */
+  transition: transform 0.22s ease, opacity 0.18s ease;
 }
 
-/* Sun and Moon styles */
-.theme-icon.sun svg {
-  color: #ffd700;
-  filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.5));
+/* slightly rotate for active effect */
+.theme-toggle-btn[aria-pressed="true"] .theme-icon svg {
+  transform: rotate(20deg) scale(1.05);
 }
 
-.theme-icon.moon svg {
-  color: #000;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+/* Watch later badge */
+.badge {
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 20px;
+  border-radius: 999px;
+  text-align: center;
+  margin-left: 0.45rem;
+  font-weight: 700;
 }
 
-/* Glow pulse */
-@keyframes glowPulse {
-  0% {
-    box-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
-  }
-  50% {
-    box-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
-  }
-  100% {
-    box-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
-  }
-}
-
-/* Hamburger button */
+/* Hamburger button for mobile */
 .hamburger-btn {
   display: none;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   width: 28px;
   height: 22px;
   background: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
-  position: relative;
-  z-index: 230;
-  -webkit-tap-highlight-color: transparent;
+  z-index: 60;
+}
+
+.hamburger-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.08);
 }
 
 .hamburger-line {
   width: 100%;
   height: 3px;
-  background-color: #fff;
-  border-radius: 2px;
-  transition:
-    transform 220ms cubic-bezier(0.2, 0.9, 0.3, 1),
-    opacity 180ms ease;
+  background-color: var(--text);
+  border-radius: 3px;
+  transition: transform 0.25s ease, opacity 0.18s ease;
 }
 
-/* Hamburger -> X */
+/* open -> animate to X */
 .hamburger-btn.open .hamburger-line:nth-child(1) {
-  transform: translateY(8.5px) rotate(45deg);
+  transform: translateY(8px) rotate(45deg);
 }
+
 .hamburger-btn.open .hamburger-line:nth-child(2) {
   opacity: 0;
 }
+
 .hamburger-btn.open .hamburger-line:nth-child(3) {
-  transform: translateY(-8.5px) rotate(-45deg);
+  transform: translateY(-8px) rotate(-45deg);
 }
 
-/* Responsive */
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .navbar,
-  .navbar.scrolled {
-    padding: 0.9rem 1rem;
+  .navbar, .navbar.scrolled {
+    padding: 1rem 1.25rem;
   }
 
   .navbar-links {
     position: absolute;
-    top: calc(100% + 10px);
-    left: 0.75rem;
-    right: 0.75rem;
+    top: 100%;
+    right: 1rem;
     flex-direction: column;
-    width: auto;
-    max-width: min(92vw, 360px);
-    margin: 0 auto;
-    background-color: #111;
+    width: 220px;
+    background-color: var(--nav-bg);
     padding: 0.9rem;
     display: none;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
-    border-radius: 12px;
-    gap: 0.6rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border-radius: 10px;
+    gap: 0.8rem;
     transform-origin: top right;
-    transform: translateY(-6px) scale(0.98);
+    transform: translateY(6px) scale(0.99);
+    transition: transform 0.18s ease, opacity 0.18s ease;
     opacity: 0;
-    transition:
-      transform 180ms ease,
-      opacity 160ms ease;
-    z-index: 210;
-    pointer-events: none;
   }
 
   .navbar-links.active {
     display: flex;
     transform: translateY(0) scale(1);
     opacity: 1;
-    pointer-events: auto;
   }
 
   .navbar-links .nav-link {
-    margin: 0.5rem 0;
-    padding: 0.6rem 0.4rem;
+    margin: 0.6rem 0;
+    padding: 0.25rem 0;
   }
 
   .hamburger-btn {
@@ -308,69 +278,14 @@
   }
 
   .brand-text {
-    font-size: 1.15rem;
+    font-size: 1.25rem;
   }
 
   .nav-link {
-    font-size: 0.98rem;
-  }
-
-  .navbar-actions {
-    gap: 0.6rem;
+    font-size: 1rem;
   }
 
   .theme-toggle-btn {
-    order: 2;
+    margin-left: 0.6rem;
   }
-
-  .hamburger-btn {
-    order: 1;
-  }
-}
-
-/* Active link */
-.nav-link.active-link {
-  font-weight: 700;
-  color: #ffd700;
-}
-
-/* Light theme overrides */
-.navbar.theme-light {
-  background-color: #f9fafb;
-  border-bottom-color: rgba(16, 24, 40, 0.06);
-  color: #0b0b0b;
-  box-shadow: 0 1px 6px rgba(16, 24, 40, 0.04);
-}
-
-.navbar.theme-light .brand-text {
-  color: #0b0b0b;
-}
-
-.navbar.theme-light .nav-link {
-  color: #111827;
-}
-
-.navbar.theme-light .brand-logo {
-  box-shadow: 0 4px 12px rgba(16, 24, 40, 0.06);
-}
-
-.navbar.theme-light .nav-link:hover {
-  background: rgba(16, 24, 40, 0.03);
-  color: #b45309;
-  box-shadow: none;
-}
-
-.navbar.theme-light .theme-toggle-btn {
-  background: rgba(16, 24, 40, 0.04);
-  border-color: rgba(16, 24, 40, 0.08);
-  color: #0b0b0b;
-}
-
-.navbar.theme-light .hamburger-line {
-  background-color: #111827;
-}
-
-.navbar.theme-light .nav-link.active-link {
-  color: #b45309;
-  font-weight: 700;
 }
