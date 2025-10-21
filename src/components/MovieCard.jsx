@@ -28,8 +28,9 @@ function MovieCard({ movie, onClick }) {
                 // if user removed watch-later label, ensure it's removed from context
                 if (isInWatchLater(movie.id)) removeFromWatchLater(movie.id);
             }
-        } catch {
-            // defensive: ignore if context not available
+        } catch (error) {
+            // defensive: ignore if context not available, but log for debugging
+            console.error("Error updating watch-later context in handleLabelChange:", error);
         }
     };
 
