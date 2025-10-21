@@ -4,7 +4,8 @@ import "../css/MovieDetails.css";
 import { getMovieDetails, getSimilarMovies, getRecommendedMovies } from "../services/api";
 
 function MovieDetails({ movieId, onClose }) {
-  const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
+  const { isFavorite, addToFavorites, removeFromFavorites, isInWatchLater, addToWatchLater, removeFromWatchLater } = useMovieContext();
+  // Removed unused isDark from ThemeContext
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,11 +37,19 @@ function MovieDetails({ movieId, onClose }) {
   }, [movieId]);
 
   const favorite = movie ? isFavorite(movie.id) : false;
+  const inWatchLater = movie ? isInWatchLater(movie.id) : false;
 
   function onFavoriteClick(e) {
     e.stopPropagation();
     if (favorite) removeFromFavorites(movie.id);
     else addToFavorites(movie);
+  }
+
+  function onWatchLaterClick(e) {
+    e.stopPropagation();
+    if (!movie) return;
+    if (inWatchLater) removeFromWatchLater(movie.id);
+    else addToWatchLater(movie);
   }
 
   const loadMovieDetails = async (targetMovieId) => {
@@ -71,7 +80,8 @@ function MovieDetails({ movieId, onClose }) {
         setSimilarMovies(similar);
         setRecommendedMovies(recommended);
       } catch (err) {
-        console.error("Failed to load related movies:", err);
+        console.error('Failed to load movie details', err);
+        setError("Failed to load movie details");
       } finally {
         setSimilarLoading(false);
       }
@@ -221,6 +231,13 @@ function MovieDetails({ movieId, onClose }) {
             onClick={onFavoriteClick}
           >
             ♥
+          </button>
+          <button
+            className={`watchlater-btn ${inWatchLater ? "active" : ""}`}
+            onClick={onWatchLaterClick}
+            title={inWatchLater ? "Remove from Watch Later" : "Add to Watch Later"}
+          >
+            ⏱
           </button>
           <button onClick={onClose} className="close-btn">✕</button>
         </div>

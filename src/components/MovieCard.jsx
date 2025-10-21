@@ -12,6 +12,7 @@ function MovieCard({ movie, onClick }) {
         return savedLabels ? JSON.parse(savedLabels) : {};
     });
 
+    const { addToWatchLater, removeFromWatchLater, isInWatchLater } = useMovieContext();
     const [selectedLabel, setSelectedLabel] = useState(movieLabels[movie.id] || "");
 
     const handleLabelChange = (movieId, label) => {
@@ -19,6 +20,18 @@ function MovieCard({ movie, onClick }) {
         setMovieLabels(updatedLabels);
         localStorage.setItem("movieLabels", JSON.stringify(updatedLabels));
         setSelectedLabel(label);
+        // Sync watch-later context when label changes
+        try {
+            if (label === "watch-later") {
+                addToWatchLater(movie);
+            } else {
+                // if user removed watch-later label, ensure it's removed from context
+                if (isInWatchLater(movie.id)) removeFromWatchLater(movie.id);
+            }
+        } catch (error) {
+            // defensive: ignore if context not available, but log for debugging
+            console.error("Error updating watch-later context in handleLabelChange:", error);
+        }
     };
 
     function onFavoriteClick(e) {
