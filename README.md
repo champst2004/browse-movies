@@ -13,37 +13,44 @@ Perfect base for integrating public movie APIs like **TMDb** or **OMDb**.
 ---
 
 ## 🚀 Features
-- ⚡ React + Vite with blazing-fast dev server & HMR  
-- 🔎 Ready to integrate **TMDb/OMDb** for movie search, lists, and details  
-- ✅ ESLint setup (extendable with TypeScript)  
-- 🎨 Component-first project structure with dedicated CSS  
+
+- ⚡ React + Vite with blazing-fast dev server & HMR
+- 🔎 Ready to integrate **TMDb/OMDb** for movie search, lists, and details
+- ✅ ESLint setup (extendable with TypeScript)
+- 🎨 Component-first project structure with dedicated CSS
 
 ---
 
 ## 🛠️ Tech Stack
-- **Frontend:** React + Vite  
-- **Styling:** CSS  
-- **Linting:** ESLint (expandable with TypeScript rules)  
+
+- **Frontend:** React + Vite
+- **Styling:** CSS
+- **Linting:** ESLint (expandable with TypeScript rules)
 
 ---
 
 ## 📦 Getting Started
+
 ### Prerequisites
-- Node.js 18+  
-- npm / yarn / pnpm  
+
+- Node.js 18+
+- npm / yarn / pnpm
 
 ### Installation
+
 ```bash
 git clone https://github.com/champst2004/browse-movies
 cd browse-movies
 npm install
 npm run dev
 ```
+
 App runs at **http://localhost:5173**
 
 ---
 
 ## 🌍 Environment Variables
+
 Create a `.env` file in the project root:
 
 ```env
@@ -56,6 +63,7 @@ VITE_TMDB_API_KEY=YOUR_TMDB_API_KEY
 ---
 
 ## 📂 Project Structure
+
 ```
 src/
  ├─ assets/        # Images, icons, static files
@@ -71,11 +79,12 @@ src/
 ---
 
 ## 📌 Roadmap
-- 🔜 API integration (TMDb/OMDb)  
-- 🎭 Responsive UI + Dark mode  
-- 🔄 Pagination / Infinite scroll  
-- ⭐ Favorites & Watchlist  
-- 🎥 Trailers and Cast pages  
+
+- 🔜 API integration (TMDb/OMDb)
+- 🎭 Responsive UI + Dark mode
+- 🔄 Pagination / Infinite scroll
+- ⭐ Favorites & Watchlist
+- 🎥 Trailers and Cast pages
 
 ---
 
@@ -88,4 +97,5 @@ Please read our [contributing guide](./CONTRIBUTING.md) and [code of conduct](./
 ---
 
 ## 📜 License
+
 MIT © [champst2004](https://github.com/champst2004/browse-movies/blob/master/LICENSE)

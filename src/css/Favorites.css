@@ -57,7 +57,6 @@
   box-sizing: border-box;
 }
 
-
 /* Make the search button look good when it's icon-only */
 .search-btn.icon-only {
   padding: 0.75rem 1rem;
@@ -79,5 +78,3 @@
 .search-btn.icon-only:hover {
   transform: translateX(2px);
 }
-
-

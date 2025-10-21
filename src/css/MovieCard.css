@@ -10,7 +10,9 @@
   font-size: 0.85rem;
   cursor: pointer;
   z-index: 5;
-  transition: background 0.3s ease, transform 0.2s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.2s ease;
 }
 
 .share-btn:hover {
@@ -37,10 +39,14 @@
   position: relative;
   border-radius: 16px;
   overflow: hidden;
-  background: linear-gradient(145deg, var(--card-bg, rgba(30, 30, 30, 0.8)), rgba(255, 255, 255, 0.05));
+  background: linear-gradient(
+    145deg,
+    var(--card-bg, rgba(30, 30, 30, 0.8)),
+    rgba(255, 255, 255, 0.05)
+  );
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.12),
     0 2px 8px rgba(0, 0, 0, 0.08);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -74,7 +80,7 @@
 
 .movie-card:hover {
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 
+  box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.2),
     0 8px 16px rgba(0, 0, 0, 0.12);
   border-color: rgba(255, 215, 0, 0.3);
@@ -328,7 +334,6 @@
   }
 }
 
-
 .movie-label {
   padding: 0 1.25rem 1.25rem;
   display: flex;
@@ -346,23 +351,27 @@
 }
 
 .label-dropdown {
-    appearance: none;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
-    backdrop-filter: blur(12px);
-    color: var(--text);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 14px;
-    padding: 12px 40px 12px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    width: 100%;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    outline: none;
-    box-shadow: 
-      0 6px 16px rgba(0, 0, 0, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.12);
-    position: relative;
+  appearance: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.12),
+    rgba(255, 255, 255, 0.06)
+  );
+  backdrop-filter: blur(12px);
+  color: var(--text);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 14px;
+  padding: 12px 40px 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  outline: none;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  position: relative;
 }
 
 /* Custom dropdown arrow */
@@ -371,55 +380,55 @@
 }
 
 .movie-label::after {
-    content: "▼";
-    position: absolute;
-    right: 35px;
-    top: 50%;
-    transform: translateY(-30%);
-    pointer-events: none;
-    font-size: 10px;
-    color: var(--text, #fff);
-    opacity: 0.7;
-    transition: all 0.3s ease;
-    z-index: 1;
-    line-height: 1;
+  content: "▼";
+  position: absolute;
+  right: 35px;
+  top: 50%;
+  transform: translateY(-30%);
+  pointer-events: none;
+  font-size: 10px;
+  color: var(--text, #fff);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  z-index: 1;
+  line-height: 1;
 }
 
 /* Hover + focus states */
 .label-dropdown:hover {
-    border-color: rgba(255, 215, 0, 0.6);
-    box-shadow: 
-      0 6px 20px rgba(255, 215, 0, 0.15),
-      0 0 0 1px rgba(255, 215, 0, 0.3);
-    transform: translateY(-2px);
+  border-color: rgba(255, 215, 0, 0.6);
+  box-shadow:
+    0 6px 20px rgba(255, 215, 0, 0.15),
+    0 0 0 1px rgba(255, 215, 0, 0.3);
+  transform: translateY(-2px);
 }
 
 .label-dropdown:focus {
-    border-color: rgba(255, 71, 87, 0.6);
-    box-shadow: 
-      0 8px 25px rgba(255, 71, 87, 0.2),
-      0 0 0 2px rgba(255, 71, 87, 0.3);
-    transform: translateY(-2px);
+  border-color: rgba(255, 71, 87, 0.6);
+  box-shadow:
+    0 8px 25px rgba(255, 71, 87, 0.2),
+    0 0 0 2px rgba(255, 71, 87, 0.3);
+  transform: translateY(-2px);
 }
 
 .movie-label:hover::after {
-    color: #ffd700;
-    opacity: 1;
-    transform: translateY(-50%) scale(1.1);
+  color: #ffd700;
+  opacity: 1;
+  transform: translateY(-50%) scale(1.1);
 }
 
 /* Style dropdown options */
 .label-dropdown option {
-    background: var(--card-bg);
-    color: var(--text);
-    padding: 12px 16px;
-    border: none;
-    font-weight: 500;
+  background: var(--card-bg);
+  color: var(--text);
+  padding: 12px 16px;
+  border: none;
+  font-weight: 500;
 }
 
 /* Highlight selected option */
 .label-dropdown option:checked,
 .label-dropdown option:hover {
-    background: linear-gradient(135deg, #ffd700, #ffbe0b);
-    color: #000;
+  background: linear-gradient(135deg, #ffd700, #ffbe0b);
+  color: #000;
 }

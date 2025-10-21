@@ -2,7 +2,12 @@ import MovieCard from "../components/MovieCard";
 import MovieDetails from "../components/MovieDetails";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getPopularMovies, searchMovies, getGenres, discoverMovies } from "../services/api";
+import {
+  getPopularMovies,
+  searchMovies,
+  getGenres,
+  discoverMovies,
+} from "../services/api";
 import "../css/Home.css";
 // Removed IntersectionObserver-based infinite scroll
 
@@ -22,13 +27,13 @@ function Home() {
   const [filters, setFilters] = useState({
     genre: "",
     year: "",
-    rating: ""
+    rating: "",
   });
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(null);
   const fetchGuard = useRef(false);
   const searchWrapRef = useRef(null);
-  
+
   // Open modal if /movie/:id route is active
   useEffect(() => {
     if (params.movieId) {
@@ -89,37 +94,52 @@ function Home() {
           });
         }
         // Also expand suggestions by scanning multiple mock pages if available in mock mode
-        if ((!results || results.length < 5)) {
+        if (!results || results.length < 5) {
           try {
-            const more = await Promise.all([getPopularMovies(2), getPopularMovies(3)]);
+            const more = await Promise.all([
+              getPopularMovies(2),
+              getPopularMovies(3),
+            ]);
             const combined = (results || []).concat(...more);
             const q = searchQuery.toLowerCase();
             const seen = new Set();
             results = [];
             for (const m of combined) {
-              const title = (m.title || '').toLowerCase();
+              const title = (m.title || "").toLowerCase();
               if (title.includes(q) && !seen.has(title)) {
                 seen.add(title);
                 results.push(m);
               }
             }
-          }
-          catch{
+          } catch {
             // keep silent
           }
         }
         // Last-resort built-in hints for common queries in mock mode
         if (!results || results.length === 0) {
           const builtIn = [
-            { id: "fallback-bahubali", title: "Bahubali", poster_path: "/st.jpg", release_date: "2015-07-10", vote_average: 8.0 },
-            { id: "fallback-bahubali-2", title: "Bahubali 2: The Conclusion", poster_path: "/st.jpg", release_date: "2017-04-28", vote_average: 8.2 },
+            {
+              id: "fallback-bahubali",
+              title: "Bahubali",
+              poster_path: "/st.jpg",
+              release_date: "2015-07-10",
+              vote_average: 8.0,
+            },
+            {
+              id: "fallback-bahubali-2",
+              title: "Bahubali 2: The Conclusion",
+              poster_path: "/st.jpg",
+              release_date: "2017-04-28",
+              vote_average: 8.2,
+            },
           ];
           const q = searchQuery.toLowerCase();
           results = builtIn.filter((m) => m.title.toLowerCase().includes(q));
         }
         setSuggestions((results || []).slice(0, 6));
         setShowSuggestions((results || []).length > 0);
-      } catch (err) { // eslint-disable-line no-empty
+      } catch (err) {
+        // eslint-disable-line no-empty
         // keep silent for suggestions
         setSuggestions([]);
         setShowSuggestions(false);
@@ -149,7 +169,8 @@ function Home() {
         if (fetchGuard.current) return;
         fetchGuard.current = true;
         setLoading(true);
-        const { results, totalPages: apiTotalPages } = await getPopularMovies(page);
+        const { results, totalPages: apiTotalPages } =
+          await getPopularMovies(page);
         setMovies((prev) => (page === 1 ? results : [...prev, ...results]));
         setTotalPages(apiTotalPages);
         setError(null);
@@ -197,7 +218,8 @@ function Home() {
     if (!value && !newFilters.genre && !newFilters.year && !newFilters.rating) {
       try {
         setLoading(true);
-        const { results, totalPages: apiTotalPages } = await getPopularMovies(1);
+        const { results, totalPages: apiTotalPages } =
+          await getPopularMovies(1);
         setMovies(results);
         setPage(1);
         setTotalPages(apiTotalPages ?? null);
@@ -230,21 +252,21 @@ function Home() {
 
   const addToSearchHistory = (item) => {
     try {
-      const isText = typeof item === 'string';
-      const newItem = isText 
-        ? { type: 'text', value: item, timestamp: Date.now() }
-        : { type: 'movie', value: item, timestamp: Date.now() };
-      
+      const isText = typeof item === "string";
+      const newItem = isText
+        ? { type: "text", value: item, timestamp: Date.now() }
+        : { type: "movie", value: item, timestamp: Date.now() };
+
       // Remove duplicates based on type and value
-      const filtered = searchHistory.filter(h => {
-        if (h.type === 'text' && isText) {
+      const filtered = searchHistory.filter((h) => {
+        if (h.type === "text" && isText) {
           return h.value.toLowerCase() !== item.toLowerCase();
-        } else if (h.type === 'movie' && !isText) {
+        } else if (h.type === "movie" && !isText) {
           return h.value.id !== item.id;
         }
         return true;
       });
-      
+
       const newHistory = [newItem, ...filtered].slice(0, 5); // Keep last 5
       setSearchHistory(newHistory);
       localStorage.setItem("searchHistory", JSON.stringify(newHistory));
@@ -266,10 +288,10 @@ function Home() {
       // It's a movie object
       setSearchQuery(item.title);
       setShowSuggestions(false);
-      
+
       // Add to search history
       addToSearchHistory(item);
-      
+
       // Open detail page if movie has numeric ID
       if (typeof item.id === "number") {
         setSelectedMovieId(item.id);
@@ -284,7 +306,7 @@ function Home() {
     setSelectedMovieId(movieId);
     navigate(`/movie/${movieId}`);
     // Add clicked movie to search history
-    const movie = movies.find(m => m.id === movieId);
+    const movie = movies.find((m) => m.id === movieId);
     if (movie) {
       addToSearchHistory(movie);
     }
@@ -308,11 +330,11 @@ function Home() {
           placeholder="Search for movies"
           className="search-input"
           value={searchQuery}
-          onChange={(e) => { 
-            setSearchQuery(e.target.value); 
-            setHasSearched(false); 
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setHasSearched(false);
           }}
-          onFocus={() => { 
+          onFocus={() => {
             // Show search history if query is empty, otherwise show suggestions
             if (searchQuery.trim().length === 0 && searchHistory.length > 0) {
               setSuggestions(searchHistory);
@@ -323,7 +345,9 @@ function Home() {
           }}
           onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
         />
-        <button type="submit" className="search-btn">Search</button>
+        <button type="submit" className="search-btn">
+          Search
+        </button>
         {showSuggestions && suggestions.length > 0 && (
           <ul className="search-suggestions">
             {searchQuery.trim().length === 0 && (
@@ -331,9 +355,9 @@ function Home() {
             )}
             {suggestions.map((s, idx) => {
               // Handle both text searches and movie objects
-              const isText = s.type === 'text' || typeof s === 'string';
+              const isText = s.type === "text" || typeof s === "string";
               const item = isText ? s.value || s : s.value || s;
-              
+
               if (isText) {
                 // Text search item
                 return (
@@ -348,10 +372,10 @@ function Home() {
                 );
               } else {
                 // Movie object
-                const posterUrl = item.poster_path 
-                  ? `https://image.tmdb.org/t/p/w92${item.poster_path}` 
+                const posterUrl = item.poster_path
+                  ? `https://image.tmdb.org/t/p/w92${item.poster_path}`
                   : null;
-                
+
                 return (
                   <li
                     key={item.id || `movie-${idx}`}
@@ -359,11 +383,13 @@ function Home() {
                     onMouseDown={() => handleSuggestionSelect(item)}
                   >
                     {posterUrl && (
-                      <img 
-                        src={posterUrl} 
+                      <img
+                        src={posterUrl}
                         alt={item.title}
                         className="suggestion-poster"
-                        onError={(e) => { e.target.style.display = 'none'; }}
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                        }}
                       />
                     )}
                     <span className="suggestion-title">{item.title}</span>
@@ -430,42 +456,47 @@ function Home() {
           <div className="loading">Loading...</div>
         ) : (
           <div className="movies-grid">
-            {[...new Map(movies.map((m) => [ (m.title || m.id), m ])).values()].map((movie) => (
-              <MovieCard
-                movie={movie}
-                key={movie.id}
-                onClick={handleMovieClick}
-              />
-            ))}
+            {[...new Map(movies.map((m) => [m.title || m.id, m])).values()].map(
+              (movie) => (
+                <MovieCard
+                  movie={movie}
+                  key={movie.id}
+                  onClick={handleMovieClick}
+                />
+              ),
+            )}
           </div>
         )}
 
         {/* Load More button appears only when browsing popular movies without active search/filters */}
-        {(!searchQuery && !filters.genre && !filters.year && !filters.rating) && movies.length > 0 && (
-          <div className="load-more-container">
-            {(totalPages === null || totalPages === undefined || page < totalPages) ? (
-              <button
-                className="load-more-btn"
-                disabled={loading}
-                onClick={() => {
-                  if (!loading) {
-                    fetchGuard.current = false;
-                    setPage((p) => p + 1);
-                  }
-                }}
-              >
-                {loading ? "Loading..." : "Load More"}
-              </button>
-            ) : null}
-          </div>
-        )}
+        {!searchQuery &&
+          !filters.genre &&
+          !filters.year &&
+          !filters.rating &&
+          movies.length > 0 && (
+            <div className="load-more-container">
+              {totalPages === null ||
+              totalPages === undefined ||
+              page < totalPages ? (
+                <button
+                  className="load-more-btn"
+                  disabled={loading}
+                  onClick={() => {
+                    if (!loading) {
+                      fetchGuard.current = false;
+                      setPage((p) => p + 1);
+                    }
+                  }}
+                >
+                  {loading ? "Loading..." : "Load More"}
+                </button>
+              ) : null}
+            </div>
+          )}
       </>
 
       {selectedMovieId && (
-        <MovieDetails
-          movieId={selectedMovieId}
-          onClose={handleCloseDetails}
-        />
+        <MovieDetails movieId={selectedMovieId} onClose={handleCloseDetails} />
       )}
     </div>
   );

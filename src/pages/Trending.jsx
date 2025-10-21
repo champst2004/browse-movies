@@ -41,9 +41,12 @@ export default function Trending() {
     <div className="trending-page">
       <header className="home-header">
         <h1 className="trending-heading">
-          <span className="emoji">🔥</span> Trending <span className="highlight">Now</span>
+          <span className="emoji">🔥</span> Trending{" "}
+          <span className="highlight">Now</span>
         </h1>
-        <p className="trending-subtitle">Discover the most popular movies this week</p>
+        <p className="trending-subtitle">
+          Discover the most popular movies this week
+        </p>
       </header>
 
       <main className="home-content">
@@ -58,7 +61,11 @@ export default function Trending() {
         ) : (
           <div className="movies-grid">
             {movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} onClick={handleMovieClick} />
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                onClick={handleMovieClick}
+              />
             ))}
           </div>
         )}

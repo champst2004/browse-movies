@@ -19,7 +19,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   overflow-x: hidden;
 }
 
@@ -95,11 +96,11 @@ button:focus-visible {
   /* Light mode: softer tinted navbar with translucency */
   --nav-bg: rgba(236, 242, 255, 0.85); /* indigo-50 with alpha */
   --nav-text: #1f2937; /* slate-800 for contrast */
-  --nav-border: rgba(100,108,255,0.18);
+  --nav-border: rgba(100, 108, 255, 0.18);
   --btn-bg: #f3f4f6;
   --link: #646cff;
   --link-hover: #535bf2;
-  --shadow: 0 2px 10px rgba(0,0,0,0.06);
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
   --transition-fast: 150ms ease;
 }
 
@@ -113,18 +114,25 @@ button:focus-visible {
   /* Dark mode: glassy dark navbar */
   --nav-bg: rgba(0, 0, 0, 0.6);
   --nav-text: #e6eef8;
-  --nav-border: rgba(255,255,255,0.08);
+  --nav-border: rgba(255, 255, 255, 0.08);
   --btn-bg: #1a1a1a;
   --link: #8aa7ff;
   --link-hover: #9bb8ff;
-  --shadow: 0 2px 14px rgba(0,0,0,0.45);
+  --shadow: 0 2px 14px rgba(0, 0, 0, 0.45);
 }
 
 /* ensure the html element has the attribute when ThemeContext sets it */
-html[data-theme] { transition: background-color var(--transition-fast), color var(--transition-fast); }
+html[data-theme] {
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+}
 
 /* Override global colors (these appear after existing rules so they take precedence) */
-:root, html, body, #root {
+:root,
+html,
+body,
+#root {
   background-color: var(--bg);
   color: var(--text);
 }
@@ -141,13 +149,18 @@ a:hover {
 button {
   background-color: var(--btn-bg);
   color: var(--text);
-  transition: transform var(--transition-fast), background-color var(--transition-fast), border-color var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    background-color var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 /* Provide a variable-driven shadow for elements that used to rely on a hard-coded shadow */
 .navbar {
   box-shadow: var(--shadow);
-  background-color: var(--nav-bg); /* will override previous hard-coded navbar background */
+  background-color: var(
+    --nav-bg
+  ); /* will override previous hard-coded navbar background */
   color: var(--nav-text);
 }
 
@@ -155,7 +168,9 @@ button {
 .movie-card {
   background: var(--card-bg);
   color: var(--text);
-  transition: background var(--transition-fast), color var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
 }
 
 /* small utility for muted text */
@@ -165,5 +180,8 @@ button {
 
 /* Respect user preference for reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }
