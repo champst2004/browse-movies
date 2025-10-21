@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useMovieContext } from "../contexts/MovieContext";
-import { useThemeContext } from "../contexts/ThemeContext";
 import "../css/MovieDetails.css";
 import { getMovieDetails } from "../services/api";
 
 function MovieDetails({ movieId, onClose }) {
-  const { isFavorite, addToFavorites, removeFromFavorites } = useMovieContext();
+  const { isFavorite, addToFavorites, removeFromFavorites, isInWatchLater, addToWatchLater, removeFromWatchLater } = useMovieContext();
   // Removed unused isDark from ThemeContext
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,11 +24,19 @@ function MovieDetails({ movieId, onClose }) {
   }, []);
 
   const favorite = movie ? isFavorite(movie.id) : false;
+  const inWatchLater = movie ? isInWatchLater(movie.id) : false;
 
   function onFavoriteClick(e) {
     e.stopPropagation(); // prevent backdrop click from closing modal
     if (favorite) removeFromFavorites(movie.id);
     else addToFavorites(movie);
+  }
+
+  function onWatchLaterClick(e) {
+    e.stopPropagation();
+    if (!movie) return;
+    if (inWatchLater) removeFromWatchLater(movie.id);
+    else addToWatchLater(movie);
   }
 
 
@@ -41,6 +48,7 @@ function MovieDetails({ movieId, onClose }) {
         setMovie(data);
         setError(null);
       } catch (err) {
+        console.error('Failed to load movie details', err);
         setError("Failed to load movie details");
       } finally {
         setLoading(false);
@@ -95,6 +103,13 @@ function MovieDetails({ movieId, onClose }) {
               onClick={onFavoriteClick}
           >
               ♥
+          </button>
+          <button
+            className={`watchlater-btn ${inWatchLater ? "active" : ""}`}
+            onClick={onWatchLaterClick}
+            title={inWatchLater ? "Remove from Watch Later" : "Add to Watch Later"}
+          >
+            ⏱
           </button>
           <button onClick={onClose} className="close-btn">✕</button>
 

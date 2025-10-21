@@ -3,11 +3,13 @@ import { NavLink } from "react-router-dom";
 import "../css/NavBar.css";
 import { useThemeContext } from "../contexts/ThemeContext";
 import useScrollPosition from "../hooks/useScrollPosition";
+import { useMovieContext } from "../contexts/MovieContext";
 
 function NavBar() {
   const { toggleTheme, isDark } = useThemeContext();
   const isScrolled = useScrollPosition(50);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { watchLater } = useMovieContext();
 
   const handleMenuToggle = () => setMenuOpen(prev => !prev);
   const handleLinkClick = () => setMenuOpen(false);
@@ -50,6 +52,14 @@ function NavBar() {
           onClick={handleLinkClick}
         >
           Favorites
+        </NavLink>
+
+        <NavLink
+          to="/watchlater"
+          className={({ isActive }) => isActive ? "nav-link active-link" : "nav-link"}
+          onClick={handleLinkClick}
+        >
+          Watch Later{watchLater && watchLater.length > 0 ? ` (${watchLater.length})` : ""}
         </NavLink>
       </div>
 
