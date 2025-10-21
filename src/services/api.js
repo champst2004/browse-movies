@@ -109,10 +109,7 @@ export const discoverMovies = async (filters = {}) => {
       await mockDelay();
       let results = [...mockData.results];
       if (filters.genre) {
-        // Genre filtering is not supported in mock mode because mockData.results does not include genre information per movie.
-        // As a result, movies will not be filtered by genre when using mock data.
-        // To support genre filtering in mock mode, consider extending mockData.results to include a genres field for each movie,
-        // and update this filter accordingly.
+        // Genre filtering is not supported in mock mode
       }
       if (filters.year) {
         results = results.filter((m) => (m.release_date || '').startsWith(String(filters.year)));
@@ -122,6 +119,48 @@ export const discoverMovies = async (filters = {}) => {
         results = results.filter((m) => Number(m.vote_average || 0) >= min);
       }
       return results;
+    }
+  );
+};
+
+// Get similar movies for a given movie ID
+export const getSimilarMovies = async (movieId) => {
+  return withFallback(
+    async () => {
+      const response = await fetch(
+        `${BASE_URL}/movie/${movieId}/similar?api_key=${API_KEY}&page=1`
+      );
+      if (!response.ok) throw new Error('Failed to fetch similar movies');
+      const data = await response.json();
+      return data.results.slice(0, 10); // Limit to 12 movies
+    },
+    async () => {
+      await mockDelay();
+      // In mock mode, return random movies from mockData excluding the current movie
+      const filteredMovies = mockData.results.filter(m => m.id !== Number(movieId));
+      // Shuffle and return first 12
+      const shuffled = [...filteredMovies].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, 10);
+    }
+  );
+};
+
+// Get recommended movies for a given movie ID
+export const getRecommendedMovies = async (movieId) => {
+  return withFallback(
+    async () => {
+      const response = await fetch(
+        `${BASE_URL}/movie/${movieId}/recommendations?api_key=${API_KEY}&page=1`
+      );
+      if (!response.ok) throw new Error('Failed to fetch recommended movies');
+      const data = await response.json();
+      return data.results.slice(0, 10); // Limit to 12 movies
+    },
+    async () => {
+      await mockDelay();   
+      const filteredMovies = mockData.results.filter(m => m.id !== Number(movieId));
+      const shuffled = [...filteredMovies].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, 10);
     }
   );
 };
