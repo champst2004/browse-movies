@@ -138,7 +138,7 @@ export const getSimilarMovies = async (movieId) => {
       await mockDelay();
       // In mock mode, return random movies from mockData excluding the current movie
       const filteredMovies = mockData.results.filter(m => m.id !== Number(movieId));
-      // Shuffle and return first 12
+      // Shuffle and return first 10
       const shuffled = [...filteredMovies].sort(() => 0.5 - Math.random());
       return shuffled.slice(0, 10);
     }
