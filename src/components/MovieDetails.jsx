@@ -5,7 +5,6 @@ import { getMovieDetails, getSimilarMovies, getRecommendedMovies } from "../serv
 
 function MovieDetails({ movieId, onClose }) {
   const { isFavorite, addToFavorites, removeFromFavorites, isInWatchLater, addToWatchLater, removeFromWatchLater } = useMovieContext();
-  // Removed unused isDark from ThemeContext
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -13,6 +12,7 @@ function MovieDetails({ movieId, onClose }) {
   const [recommendedMovies, setRecommendedMovies] = useState([]);
   const [similarLoading, setSimilarLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('similar');
+  const [currentMovieId, setCurrentMovieId] = useState(movieId);
   
   // Navigation history
   const [navigationHistory, setNavigationHistory] = useState([]);
@@ -65,9 +65,29 @@ function MovieDetails({ movieId, onClose }) {
     }
   };
 
+  const loadRelatedMovies = async (targetMovieId) => {
+    try {
+      setSimilarLoading(true);
+      const [similar, recommended] = await Promise.all([
+        getSimilarMovies(targetMovieId),
+        getRecommendedMovies(targetMovieId)
+      ]);
+      setSimilarMovies(similar);
+      setRecommendedMovies(recommended);
+    } catch (err) {
+      console.error("Failed to load related movies:", err);
+      setSimilarMovies([]);
+      setRecommendedMovies([]);
+    } finally {
+      setSimilarLoading(false);
+    }
+  };
+
   useEffect(() => {
-    loadMovieDetails(movieId);
-  }, [movieId]);
+    loadMovieDetails(currentMovieId);
+    loadRelatedMovies(currentMovieId);
+  }, [currentMovieId]);
+
 
   useEffect(() => {
     const fetchRelatedMovies = async () => {
@@ -108,6 +128,7 @@ function MovieDetails({ movieId, onClose }) {
     setCurrentHistoryIndex(newHistory.length - 1);
     
     // Load the movie
+    setCurrentMovieId(clickedMovieId);
     setMovie(null);
     setLoading(true);
     window.history.pushState({}, '', `/movie/${clickedMovieId}`);

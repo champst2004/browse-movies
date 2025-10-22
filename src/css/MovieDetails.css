@@ -123,6 +123,39 @@
   border-color: rgba(255, 71, 87, 0.5);
 }
 
+.watchlater-btn {
+  position: absolute;
+  right: 7.5rem;
+  color: white;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;     
+  z-index: 2;
+}
+
+.watchlater-btn:hover {
+  background: rgba(0, 0, 0, 0.8);
+  transform: scale(1.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.watchlater-btn.active {
+  color: #4fc3f7;
+  background: rgba(79, 195, 247, 0.2);
+  border-color: #4fc3f7;
+  box-shadow: 0 0 20px rgba(79, 195, 247, 0.4);
+}
+
 .close-btn {
   position: absolute;
   right: 1rem;
