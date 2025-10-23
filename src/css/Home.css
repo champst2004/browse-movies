@@ -14,9 +14,10 @@
   background-color: var(--card-bg);
   border: 1px solid rgba(128, 128, 128, 0.2);
   border-radius: 25px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-m);
   overflow: visible;
   position: relative;
+  
   z-index: 100;
   transition: all 0.3s ease;
 }
@@ -164,7 +165,7 @@
   background-color: var(--card-bg);
   padding: 1.5rem;
   border-radius: 12px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-m);
 }
 .genre-section {
   width: 100%;
