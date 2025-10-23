@@ -163,7 +163,7 @@
   background-color: var(--card-bg);
   border-radius: 12px;
   box-shadow: var(--shadow);
-  border: 1.2px solid rgb(23, 142, 221);
+  border: 1.2px solid var(--accent);
 }
 .genre-section {
   width: 100%;
