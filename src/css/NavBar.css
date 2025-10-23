@@ -26,27 +26,29 @@
 .navbar {
   padding: 1.5rem 2.5rem;
   display: flex;
+  gap: 1rem;
   justify-content: space-between;
   align-items: center;
   position: sticky;
   top: 0;
   z-index: 50;
-  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-  animation: fadeInDown 0.8s ease-out;
+  transition: all 0.25s ease;
+  animation: fadeInDown 0.6s ease-out;
   background-color: var(--nav-bg);
+  backdrop-filter: none;
 }
 
-/* Scrolled state for the navbar */
+/* when scrolled */
 .navbar.scrolled {
   padding: 0.8rem 2rem;
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
   background-color: var(--nav-bg);
   box-shadow: var(--shadow);
   border-bottom: 1px solid var(--nav-border);
 }
 
-/* Brand logo and text styling */
+/* Brand */
 .navbar-brand {
   display: flex;
   align-items: center;
@@ -57,52 +59,55 @@
   align-items: center;
   gap: 0.8rem;
   text-decoration: none;
+  color: inherit;
 }
 
 .brand-logo {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.45s ease;
 }
 
 .brand-link:hover .brand-logo {
-  transform: rotate(360deg) scale(1.1);
+  transform: rotate(360deg) scale(1.05);
 }
 
 .brand-text {
-  font-size: 1.6rem;
-  font-weight: 900;
+  font-size: 1.45rem;
+  font-weight: 800;
   color: var(--text);
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+  line-height: 1;
 }
 
-/* Navigation links with a unique hover effect */
+/* Navigation links */
 .navbar-links {
   display: flex;
-  gap: 2rem;
+  gap: 1.8rem;
+  align-items: center;
 }
 
 .nav-link {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  padding: 0.5rem 0;
+  padding: 0.35rem 0;
   position: relative;
   text-decoration: none;
   color: var(--text);
+  transition: color 0.18s ease;
 }
 
 .nav-link::after {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -5px;
+  bottom: -6px;
   width: 0;
   height: 3px;
   background: var(--accent);
-  border-radius: 5px;
-  transition: width 0.3s ease;
+  border-radius: 6px;
+  transition: width 0.22s ease;
 }
 
 .nav-link:hover::after {
@@ -110,102 +115,10 @@
 }
 
 .nav-link:hover {
-  animation: navLinkHover 0.4s ease-in-out;
+  animation: navLinkHover 0.35s ease-in-out;
 }
 
-/* Theme toggle button styling */
-.theme-toggle-btn {
-  background: transparent;
-  border: 2px solid var(--text);
-  color: var(--text);
-  padding: 0.5rem;
-  border-radius: 50%;
-  font-size: 1.5rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.theme-toggle-btn:hover {
-  background: var(--accent);
-  color: white;
-  border-color: var(--accent);
-  transform: scale(1.1) rotate(360deg);
-}
-
-.icon {
-  display: inline-block;
-  transition: transform 0.3s ease;
-}
-
-/* Hamburger button for mobile */
-.hamburger-btn {
-  display: none;
-  flex-direction: column;
-  justify-content: space-around;
-  width: 25px;
-  height: 20px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  z-index: 60;
-}
-
-.hamburger-line {
-  width: 100%;
-  height: 3px;
-  background-color: var(--text);
-  border-radius: 2px;
-  transition: all 0.3s ease;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .navbar, .navbar.scrolled {
-    padding: 1rem 1.5rem;
-  }
-
-  .navbar-links {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    flex-direction: column;
-    width: 200px;
-    background-color: var(--nav-bg);
-    padding: 1rem;
-    display: none;
-    box-shadow: 0 4px 8px rgba(var(--shadow-rgb), 0.1);
-    border-radius: 8px;
-    gap: 1rem;
-  }
-
-  .navbar-links.active {
-    display: flex;
-  }
-
-  .navbar-links .nav-link {
-    margin: 0.8rem 0;
-  }
-
-  .hamburger-btn {
-    display: flex;
-  }
-
-  .brand-text {
-    font-size: 1.4rem;
-  }
-
-  .nav-link {
-    font-size: 1rem;
-  }
-
-  .theme-toggle-btn {
-    margin-left: 1rem;
-  }
-}
+/* active link */
 .nav-link.active-link {
   font-weight: 700;
   color: var(--color-accent);
@@ -214,4 +127,165 @@
 .nav-link.active-link::after {
   width: 100%;
   background: var(--color-accent);
+}
+
+/* Theme toggle button and inline SVG styling
+   We intentionally style the SVGs placed inline in JSX by targeting .theme-icon svg.
+   This keeps all visual tweaks in CSS and works with the inline markup. */
+.theme-toggle-btn {
+  background: transparent;
+  border: 2px solid var(--text);
+  color: var(--text);
+  padding: 0.45rem;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, background-color 0.18s ease, color 0.18s ease;
+}
+
+.theme-toggle-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.12);
+}
+
+.theme-toggle-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+
+/* Target inline SVGs inside the theme icon container */
+.theme-icon,
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SVG sizing + color inheritance */
+.theme-icon svg,
+.icon svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+  stroke: currentColor; /* make stroke use button color */
+  fill: none;           /* keep icons outlined unless SVG sets fill */
+  transition: transform 0.22s ease, opacity 0.18s ease;
+}
+
+/* slightly rotate for active effect */
+.theme-toggle-btn[aria-pressed="true"] .theme-icon svg {
+  transform: rotate(20deg) scale(1.05);
+}
+
+/* Watch later badge */
+.badge {
+  display: inline-block;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  line-height: 20px;
+  border-radius: 999px;
+  text-align: center;
+  margin-left: 0.45rem;
+  font-weight: 700;
+}
+
+/* Hamburger button for mobile */
+.hamburger-btn {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 28px;
+  height: 22px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 60;
+}
+
+.hamburger-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.08);
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background-color: var(--text);
+  border-radius: 3px;
+  transition: transform 0.25s ease, opacity 0.18s ease;
+}
+
+/* open -> animate to X */
+.hamburger-btn.open .hamburger-line:nth-child(1) {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger-btn.open .hamburger-line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-btn.open .hamburger-line:nth-child(3) {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar, .navbar.scrolled {
+    padding: 1rem 1.25rem;
+  }
+
+  .navbar-links {
+    position: absolute;
+    top: 100%;
+    right: 1rem;
+    flex-direction: column;
+    width: 220px;
+    background-color: var(--nav-bg);
+    padding: 0.9rem;
+    display: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border-radius: 10px;
+    gap: 0.8rem;
+    transform-origin: top right;
+    transform: translateY(6px) scale(0.99);
+    transition: transform 0.18s ease, opacity 0.18s ease;
+    opacity: 0;
+  }
+
+  .navbar-links.active {
+    display: flex;
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+
+  .navbar-links .nav-link {
+    margin: 0.6rem 0;
+    padding: 0.25rem 0;
+  }
+
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .brand-text {
+    font-size: 1.25rem;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+  }
+
+  .theme-toggle-btn {
+    margin-left: 0.6rem;
+  }
 }

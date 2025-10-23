@@ -11,7 +11,10 @@ export const ThemeProvider = ({ children }) => {
     try {
       const stored = localStorage.getItem("theme");
       if (stored) return stored; // can be "light" | "dark" | "system"
-      if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      if (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      ) {
         return "dark";
       }
     } catch (e) {
@@ -22,7 +25,11 @@ export const ThemeProvider = ({ children }) => {
 
   const [theme, setTheme] = useState(getInitialTheme);
   const [systemPref, setSystemPref] = useState(() =>
-    typeof window !== "undefined" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+    typeof window !== "undefined" &&
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light",
   );
 
   // Watch for system preference changes and update when theme is set to "system"
@@ -63,5 +70,7 @@ export const ThemeProvider = ({ children }) => {
   const isDark = effectiveTheme === "dark";
   const value = { theme, setTheme, toggleTheme, isDark };
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return (
+    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+  );
 };

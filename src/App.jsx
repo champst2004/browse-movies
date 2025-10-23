@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import Trending from "./pages/Trending";
 import WatchLater from "./pages/WatchLater";
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route } from "react-router-dom";
 import { MovieProvider } from "./contexts/MovieContext";
 import NavBar from "./components/NavBar";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -13,20 +13,20 @@ import ScrollToTopButton from "./components/ScrollToTopButton";
 function App() {
   return (
     <ThemeProvider>
-    <MovieProvider>
-      <NavBar> </NavBar>
-      <main className="main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/trending" element={<Trending />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="/watchlater" element={<WatchLater />} />
-          <Route path="/movie/:movieId" element={<Home />} /> 
-        </Routes>
-      </main>
-      <Footer /> 
-      <ScrollToTopButton />
-    </MovieProvider>
+      <MovieProvider>
+        <NavBar> </NavBar>
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/trending" element={<Trending />} />
+            <Route path="/favorites" element={<Favorites />} />
+            <Route path="/watchlater" element={<WatchLater />} />
+            <Route path="/movie/:movieId" element={<Home />} />
+          </Routes>
+        </main>
+        <Footer />
+        <ScrollToTopButton />
+      </MovieProvider>
     </ThemeProvider>
   );
 }

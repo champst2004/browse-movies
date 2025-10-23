@@ -10,7 +10,7 @@
   text-align: center;
   display: inline-block;
   margin-bottom: 0.5rem;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
 }
 
 .trending-heading .emoji {
@@ -37,8 +37,10 @@
   max-width: 220px;
   background: var(--color-card-bg);
   border-radius: 1.2rem;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.12);
-  transition: box-shadow 0.2s, transform 0.2s;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
   position: relative;
 }
 .trending-card:hover {
@@ -69,7 +71,7 @@
   width: 32px;
   height: 32px;
   font-size: 1.2rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -97,7 +99,9 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem; /* space between emoji and text */
-  color: var(--color-primary); /* fallback color replaced with design system variable */
+  color: var(
+    --color-primary
+  ); /* fallback color replaced with design system variable */
 }
 
 /* Emoji */

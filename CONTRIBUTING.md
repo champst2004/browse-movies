@@ -22,10 +22,10 @@ We welcome contributions for Hacktoberfest! Please make sure your pull requests 
 
 ## Pull Request Guidelines
 
--   Ensure your PR description is clear and describes the changes you've made.
--   If your PR addresses an issue, please link to it in the description (e.g., "Closes #123").
--   Make sure your code is well-formatted and follows the project's ESLint rules. You can run `npm run lint` to check your code.
--   Be respectful and open to feedback.
+- Ensure your PR description is clear and describes the changes you've made.
+- If your PR addresses an issue, please link to it in the description (e.g., "Closes #123").
+- Make sure your code is well-formatted and follows the project's ESLint rules. You can run `npm run lint` to check your code.
+- Be respectful and open to feedback.
 
 ## Code of Conduct
 

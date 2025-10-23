@@ -1,10 +1,21 @@
 import { useEffect, useState, useRef } from "react";
 import { useMovieContext } from "../contexts/MovieContext";
 import "../css/MovieDetails.css";
-import { getMovieDetails, getSimilarMovies, getRecommendedMovies } from "../services/api";
+import {
+  getMovieDetails,
+  getSimilarMovies,
+  getRecommendedMovies,
+} from "../services/api";
 
 function MovieDetails({ movieId, onClose }) {
-  const { isFavorite, addToFavorites, removeFromFavorites, isInWatchLater, addToWatchLater, removeFromWatchLater } = useMovieContext();
+  const {
+    isFavorite,
+    addToFavorites,
+    removeFromFavorites,
+    isInWatchLater,
+    addToWatchLater,
+    removeFromWatchLater,
+  } = useMovieContext();
   // Removed unused isDark from ThemeContext
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -12,8 +23,8 @@ function MovieDetails({ movieId, onClose }) {
   const [similarMovies, setSimilarMovies] = useState([]);
   const [recommendedMovies, setRecommendedMovies] = useState([]);
   const [similarLoading, setSimilarLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState('similar');
-  
+  const [activeTab, setActiveTab] = useState("similar");
+
   // Navigation history
   const [navigationHistory, setNavigationHistory] = useState([]);
   const [currentHistoryIndex, setCurrentHistoryIndex] = useState(-1);
@@ -21,8 +32,8 @@ function MovieDetails({ movieId, onClose }) {
 
   useEffect(() => {
     const originalStyle = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    
+    document.body.style.overflow = "hidden";
+
     return () => {
       document.body.style.overflow = originalStyle;
     };
@@ -75,12 +86,12 @@ function MovieDetails({ movieId, onClose }) {
         setSimilarLoading(true);
         const [similar, recommended] = await Promise.all([
           getSimilarMovies(movieId),
-          getRecommendedMovies(movieId)
+          getRecommendedMovies(movieId),
         ]);
         setSimilarMovies(similar);
         setRecommendedMovies(recommended);
       } catch (err) {
-        console.error('Failed to load movie details', err);
+        console.error("Failed to load movie details", err);
         setError("Failed to load movie details");
       } finally {
         setSimilarLoading(false);
@@ -100,22 +111,22 @@ function MovieDetails({ movieId, onClose }) {
 
   const handleSimilarMovieClick = (clickedMovieId) => {
     if (isNavigating.current) return;
-    
+
     // Add to history
     const newHistory = navigationHistory.slice(0, currentHistoryIndex + 1);
     newHistory.push(clickedMovieId);
     setNavigationHistory(newHistory);
     setCurrentHistoryIndex(newHistory.length - 1);
-    
+
     // Load the movie
     setMovie(null);
     setLoading(true);
-    window.history.pushState({}, '', `/movie/${clickedMovieId}`);
-    
+    window.history.pushState({}, "", `/movie/${clickedMovieId}`);
+
     loadMovieDetails(clickedMovieId);
 
     // Scroll to top
-    const modalContent = document.querySelector('.modal-content');
+    const modalContent = document.querySelector(".modal-content");
     if (modalContent) {
       modalContent.scrollTop = 0;
     }
@@ -126,18 +137,18 @@ function MovieDetails({ movieId, onClose }) {
       isNavigating.current = true;
       const previousIndex = currentHistoryIndex - 1;
       const previousMovieId = navigationHistory[previousIndex];
-      
+
       setCurrentHistoryIndex(previousIndex);
       setMovie(null);
       setLoading(true);
-      window.history.pushState({}, '', `/movie/${previousMovieId}`);
-      
+      window.history.pushState({}, "", `/movie/${previousMovieId}`);
+
       loadMovieDetails(previousMovieId).then(() => {
         isNavigating.current = false;
       });
 
       // Scroll to top
-      const modalContent = document.querySelector('.modal-content');
+      const modalContent = document.querySelector(".modal-content");
       if (modalContent) {
         modalContent.scrollTop = 0;
       }
@@ -149,18 +160,18 @@ function MovieDetails({ movieId, onClose }) {
       isNavigating.current = true;
       const nextIndex = currentHistoryIndex + 1;
       const nextMovieId = navigationHistory[nextIndex];
-      
+
       setCurrentHistoryIndex(nextIndex);
       setMovie(null);
       setLoading(true);
-      window.history.pushState({}, '', `/movie/${nextMovieId}`);
-      
+      window.history.pushState({}, "", `/movie/${nextMovieId}`);
+
       loadMovieDetails(nextMovieId).then(() => {
         isNavigating.current = false;
       });
 
       // Scroll to top
-      const modalContent = document.querySelector('.modal-content');
+      const modalContent = document.querySelector(".modal-content");
       if (modalContent) {
         modalContent.scrollTop = 0;
       }
@@ -185,7 +196,9 @@ function MovieDetails({ movieId, onClose }) {
       <div className="modal-backdrop" onClick={handleBackdropClick}>
         <div className="modal-content">
           <div className="error-msg">{error}</div>
-          <button onClick={onClose} className="close-btn">Close</button>
+          <button onClick={onClose} className="close-btn">
+            Close
+          </button>
         </div>
       </div>
     );
@@ -194,13 +207,14 @@ function MovieDetails({ movieId, onClose }) {
   if (!movie) return null;
 
   const trailer = movie.videos?.results?.find(
-    (video) => video.type === "Trailer" && video.site === "YouTube"
+    (video) => video.type === "Trailer" && video.site === "YouTube",
   );
 
   const cast = movie.credits?.cast?.slice(0, 10) || [];
   const releaseYear = movie.release_date?.split("-")[0] || "N/A";
 
-  const displayedMovies = activeTab === 'similar' ? similarMovies : recommendedMovies;
+  const displayedMovies =
+    activeTab === "similar" ? similarMovies : recommendedMovies;
 
   return (
     <div className="modal-backdrop" onClick={handleBackdropClick}>
@@ -209,7 +223,7 @@ function MovieDetails({ movieId, onClose }) {
           {/* Navigation buttons */}
           <div className="nav-controls">
             <button
-              className={`nav-btn ${!canGoBack ? 'disabled' : ''}`}
+              className={`nav-btn ${!canGoBack ? "disabled" : ""}`}
               onClick={handleBack}
               disabled={!canGoBack}
               title="Go back to previous movie"
@@ -217,7 +231,7 @@ function MovieDetails({ movieId, onClose }) {
               ←
             </button>
             <button
-              className={`nav-btn ${!canGoForward ? 'disabled' : ''}`}
+              className={`nav-btn ${!canGoForward ? "disabled" : ""}`}
               onClick={handleForward}
               disabled={!canGoForward}
               title="Go forward to next movie"
@@ -235,13 +249,17 @@ function MovieDetails({ movieId, onClose }) {
           <button
             className={`watchlater-btn ${inWatchLater ? "active" : ""}`}
             onClick={onWatchLaterClick}
-            title={inWatchLater ? "Remove from Watch Later" : "Add to Watch Later"}
+            title={
+              inWatchLater ? "Remove from Watch Later" : "Add to Watch Later"
+            }
           >
             ⏱
           </button>
-          <button onClick={onClose} className="close-btn">✕</button>
+          <button onClick={onClose} className="close-btn">
+            ✕
+          </button>
         </div>
-        
+
         <div className="movie-details">
           <div className="details-header">
             {movie.backdrop_path && (
@@ -255,7 +273,9 @@ function MovieDetails({ movieId, onClose }) {
               <h1>{movie.title}</h1>
               <div className="meta-info">
                 <span className="year">{releaseYear}</span>
-                <span className="rating">⭐ {movie.vote_average?.toFixed(1)}/10</span>
+                <span className="rating">
+                  ⭐ {movie.vote_average?.toFixed(1)}/10
+                </span>
                 <span className="runtime">{movie.runtime} min</span>
               </div>
             </div>
@@ -326,14 +346,14 @@ function MovieDetails({ movieId, onClose }) {
                 <div className="similar-header">
                   <div className="similar-tabs">
                     <button
-                      className={`tab-btn ${activeTab === 'similar' ? 'active' : ''}`}
-                      onClick={() => setActiveTab('similar')}
+                      className={`tab-btn ${activeTab === "similar" ? "active" : ""}`}
+                      onClick={() => setActiveTab("similar")}
                     >
                       Similar Movies ({similarMovies.length})
                     </button>
                     <button
-                      className={`tab-btn ${activeTab === 'recommended' ? 'active' : ''}`}
-                      onClick={() => setActiveTab('recommended')}
+                      className={`tab-btn ${activeTab === "recommended" ? "active" : ""}`}
+                      onClick={() => setActiveTab("recommended")}
                     >
                       Recommended ({recommendedMovies.length})
                     </button>
@@ -370,7 +390,9 @@ function MovieDetails({ movieId, onClose }) {
                         </div>
                         <div className="similar-info">
                           <h4>{similarMovie.title}</h4>
-                          <p>{similarMovie.release_date?.split("-")[0] || "N/A"}</p>
+                          <p>
+                            {similarMovie.release_date?.split("-")[0] || "N/A"}
+                          </p>
                         </div>
                       </div>
                     ))}
