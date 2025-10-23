@@ -31,6 +31,7 @@
   position: sticky;
   top: 0;
   z-index: 50;
+  
   transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   animation: fadeInDown 0.8s ease-out;
   background-color: var(--nav-bg);
@@ -57,6 +58,7 @@
   align-items: center;
   gap: 0.8rem;
   text-decoration: none;
+ 
 }
 
 .brand-logo {
@@ -82,6 +84,7 @@
 .navbar-links {
   display: flex;
   gap: 2rem;
+  
 }
 
 .nav-link {
@@ -91,6 +94,7 @@
   position: relative;
   text-decoration: none;
   color: var(--text);
+  
 }
 
 .nav-link::after {

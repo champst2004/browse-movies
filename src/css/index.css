@@ -100,6 +100,12 @@ button:focus-visible {
   --link: #646cff;
   --link-hover: #535bf2;
   --shadow: 0 2px 10px rgba(0,0,0,0.06);
+  --shadow-m:
+    inset 0 1px 2px #ffffff30, 
+    0 1px 2px #00000015,
+    0 2px 4px #00000030;
+   
+
   --transition-fast: 150ms ease;
 }
 
@@ -118,6 +124,7 @@ button:focus-visible {
   --link: #8aa7ff;
   --link-hover: #9bb8ff;
   --shadow: 0 2px 14px rgba(0,0,0,0.45);
+  
 }
 
 /* ensure the html element has the attribute when ThemeContext sets it */
@@ -146,7 +153,7 @@ button {
 
 /* Provide a variable-driven shadow for elements that used to rely on a hard-coded shadow */
 .navbar {
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-m);
   background-color: var(--nav-bg); /* will override previous hard-coded navbar background */
   color: var(--nav-text);
 }
