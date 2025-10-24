@@ -28,7 +28,7 @@ function Home() {
   const [totalPages, setTotalPages] = useState(null);
   const fetchGuard = useRef(false);
   const searchWrapRef = useRef(null);
-  
+
   // Open modal if /movie/:id route is active
   useEffect(() => {
     if (params.movieId) {
@@ -104,7 +104,7 @@ function Home() {
               }
             }
           }
-          catch{
+          catch {
             // keep silent
           }
         }
@@ -150,7 +150,9 @@ function Home() {
         fetchGuard.current = true;
         setLoading(true);
         const { results, totalPages: apiTotalPages } = await getPopularMovies(page);
-        setMovies((prev) => (page === 1 ? results : [...prev, ...results]));
+        const sortedResults = results.sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0));
+
+        setMovies((prev) => (page === 1 ? sortedResults : [...prev, ...sortedResults]));
         setTotalPages(apiTotalPages);
         setError(null);
       } catch (err) {
@@ -198,7 +200,9 @@ function Home() {
       try {
         setLoading(true);
         const { results, totalPages: apiTotalPages } = await getPopularMovies(1);
-        setMovies(results);
+        const sortedResults = results.sort((a, b) => (b.vote_average || 0) - (a.vote_average || 0));
+
+        setMovies(sortedResults);
         setPage(1);
         setTotalPages(apiTotalPages ?? null);
         setError(null);
@@ -231,10 +235,10 @@ function Home() {
   const addToSearchHistory = (item) => {
     try {
       const isText = typeof item === 'string';
-      const newItem = isText 
+      const newItem = isText
         ? { type: 'text', value: item, timestamp: Date.now() }
         : { type: 'movie', value: item, timestamp: Date.now() };
-      
+
       // Remove duplicates based on type and value
       const filtered = searchHistory.filter(h => {
         if (h.type === 'text' && isText) {
@@ -244,7 +248,7 @@ function Home() {
         }
         return true;
       });
-      
+
       const newHistory = [newItem, ...filtered].slice(0, 5); // Keep last 5
       setSearchHistory(newHistory);
       localStorage.setItem("searchHistory", JSON.stringify(newHistory));
@@ -260,16 +264,16 @@ function Home() {
       setSearchQuery(item);
       setShowSuggestions(false);
       // Trigger search programmatically
-      const fakeEvent = { preventDefault: () => {} };
+      const fakeEvent = { preventDefault: () => { } };
       await handleSearch(fakeEvent);
     } else {
       // It's a movie object
       setSearchQuery(item.title);
       setShowSuggestions(false);
-      
+
       // Add to search history
       addToSearchHistory(item);
-      
+
       // Open detail page if movie has numeric ID
       if (typeof item.id === "number") {
         setSelectedMovieId(item.id);
@@ -308,11 +312,11 @@ function Home() {
           placeholder="Search for movies"
           className="search-input"
           value={searchQuery}
-          onChange={(e) => { 
-            setSearchQuery(e.target.value); 
-            setHasSearched(false); 
+          onChange={(e) => {
+            setSearchQuery(e.target.value);
+            setHasSearched(false);
           }}
-          onFocus={() => { 
+          onFocus={() => {
             // Show search history if query is empty, otherwise show suggestions
             if (searchQuery.trim().length === 0 && searchHistory.length > 0) {
               setSuggestions(searchHistory);
@@ -333,7 +337,7 @@ function Home() {
               // Handle both text searches and movie objects
               const isText = s.type === 'text' || typeof s === 'string';
               const item = isText ? s.value || s : s.value || s;
-              
+
               if (isText) {
                 // Text search item
                 return (
@@ -348,10 +352,10 @@ function Home() {
                 );
               } else {
                 // Movie object
-                const posterUrl = item.poster_path 
-                  ? `https://image.tmdb.org/t/p/w92${item.poster_path}` 
+                const posterUrl = item.poster_path
+                  ? `https://image.tmdb.org/t/p/w92${item.poster_path}`
                   : null;
-                
+
                 return (
                   <li
                     key={item.id || `movie-${idx}`}
@@ -359,8 +363,8 @@ function Home() {
                     onMouseDown={() => handleSuggestionSelect(item)}
                   >
                     {posterUrl && (
-                      <img 
-                        src={posterUrl} 
+                      <img
+                        src={posterUrl}
                         alt={item.title}
                         className="suggestion-poster"
                         onError={(e) => { e.target.style.display = 'none'; }}
@@ -430,7 +434,7 @@ function Home() {
           <div className="loading">Loading...</div>
         ) : (
           <div className="movies-grid">
-            {[...new Map(movies.map((m) => [ (m.title || m.id), m ])).values()].map((movie) => (
+            {[...new Map(movies.map((m) => [(m.title || m.id), m])).values()].map((movie) => (
               <MovieCard
                 movie={movie}
                 key={movie.id}
