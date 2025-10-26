@@ -79,11 +79,13 @@ src/
 
 ---
 
-## 🤝 Contributing
+## Contributors 💖
 
-Contributions, issues, and feature requests are welcome!  
-Feel free to check the [issues page](https://github.com/champst2004/browse-movies/issues).  
-Please read our [contributing guide](./CONTRIBUTING.md) and [code of conduct](./CODE_OF_CONDUCT.md) before submitting a pull request.
+Thanks to all the amazing contributors who have helped make a thriving community! 🌟
+
+<a href="https://github.com/champst2004/browse-movies/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=champst2004/browse-movies" />
+</a>
 
 ---
 
