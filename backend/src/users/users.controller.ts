@@ -12,7 +12,7 @@ export class UsersController {
     @UseGuards(JwtAuthGuard)
     @Get('favorites')
     async getMyFavorites(@Req() req) {
-        const userId = req.user.sub;
+        const userId = req.user._id;
         return this.usersService.getFavorites(userId);
     }
 
@@ -20,7 +20,7 @@ export class UsersController {
     @Post('favorites/add')
     @HttpCode(HttpStatus.OK)
     async addFavorite(@Req() req, @Body() body: MovieDto) {
-        const userId = req.user.sub;
+        const userId = req.user._id;
         const { movieId } = body;
 
         console.log(`Attempting to add favorite for userId: ${userId}`); // <-- ADD THIS
@@ -48,7 +48,7 @@ export class UsersController {
     @Delete('favorites/remove')
     @HttpCode(HttpStatus.OK)
     async removeFavorite(@Req() req, @Body() body: MovieDto) {
-        const userId = req.user.sub;
+        const userId = req.user._id;
         const { movieId } = body;
         await this.usersService.removeFavorite(userId, movieId);
         return { message: 'Favorite removed successfully' };
