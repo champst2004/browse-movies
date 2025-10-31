@@ -2,32 +2,49 @@ import "./css/App.css";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import Trending from "./pages/Trending";
-import WatchLater from "./pages/WatchLater";
+import AuthPage from "./pages/AuthPage";
+import MainLayout from "./components/MainLayout";
+
 import { Routes, Route } from "react-router-dom"
 import { MovieProvider } from "./contexts/MovieContext";
-import NavBar from "./components/NavBar";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Footer from "./components/Footer";
+import { AuthProvider } from "./contexts/AuthContext";
 import ScrollToTopButton from "./components/ScrollToTopButton";
+import PublicOnlyRoute from "./components/PublicOnlyRoute";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
-    <ThemeProvider>
-    <MovieProvider>
-      <NavBar> </NavBar>
-      <main className="main-content">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/trending" element={<Trending />} />
-          <Route path="/favorites" element={<Favorites />} />
-          <Route path="/watchlater" element={<WatchLater />} />
-          <Route path="/movie/:movieId" element={<Home />} /> 
-        </Routes>
-      </main>
-      <Footer /> 
-      <ScrollToTopButton />
-    </MovieProvider>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <MovieProvider>
+          <ScrollToTopButton />
+
+          <Routes>
+            <Route
+              path="/auth"
+              element={
+                <PublicOnlyRoute>
+                  <AuthPage />
+                </PublicOnlyRoute>
+              }
+            />
+            <Route
+              element={
+                <ProtectedRoute>
+                  <MainLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="/" element={<Home />} />
+              <Route path="/trending" element={<Trending />} />
+              <Route path="/favorites" element={<Favorites />} />
+            </Route>
+
+          </Routes>
+        </MovieProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
