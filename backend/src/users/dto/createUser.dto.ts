@@ -14,7 +14,7 @@ export class createUserDto {
     @IsString()
     lastName?: string;
 
-    @IsNotEmpty()
+    @IsNotEmpty({ message: "Email field cannot be empty" })
     @IsEmail()
     email: string;
 
