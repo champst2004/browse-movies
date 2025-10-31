@@ -22,7 +22,24 @@ export class UsersController {
     async addFavorite(@Req() req, @Body() body: MovieDto) {
         const userId = req.user.sub;
         const { movieId } = body;
-        await this.usersService.addFavorite(userId, movieId);
+
+        console.log(`Attempting to add favorite for userId: ${userId}`); // <-- ADD THIS
+
+        const updateResult = await this.usersService.addFavorite(userId, movieId);
+
+
+        console.log('Database update result:', updateResult); // <-- ADD THIS
+
+
+        if (updateResult.matchedCount === 0) {
+            console.error('USER NOT FOUND. No document matched the userId.');
+            return { message: 'Error: User not found.' }; // Send a real error
+        }
+
+        if (updateResult.modifiedCount === 0) {
+            console.warn('Favorite already exists.');
+        }
+
         return { message: 'Favorite added successfully' };
     }
 
