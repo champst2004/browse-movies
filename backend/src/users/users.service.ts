@@ -32,17 +32,17 @@ export class UsersService {
     }
 
     async addFavorite(userId: string, movieId: string) {
-        return this.userModel.updateOne(
+        return await this.userModel.updateOne(
             { _id: userId },
             { $addToSet: { favoriteMovies: movieId } }
-        );
+        ).exec();
     }
 
     async removeFavorite(userId: string, movieId: string) {
-        return this.userModel.updateOne(
+        return await this.userModel.updateOne(
             { _id: userId },
             { $pull: { favoriteMovies: movieId } }
-        );
+        ).exec();
     }
 
     async getFavorites(userId: string) {
